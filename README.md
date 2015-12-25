@@ -60,6 +60,7 @@ heroku authorizations:create --description "For use with octodemo.com"
 - Add Travis CI service hook for end-point `https://travis.octodemo.com/listener`
 - Add GitHub Auto-Deployment Service Hook for end-point `https://octodemo.com/api/v3` with GitHub token scope `repo`
 - Add HerokuBeta Service Hook for end-point `https://octodemo.com/api/v3` with GitHub token scope `repo-deployment`
+
 ## Installing and running
 To install and run the `reading-time-app` application locally execute the following commands:
 ```
@@ -81,20 +82,36 @@ To create and view the `reading-time-app` reports:
 mvn site
 open target/site/index.html
 ```
+
 ## Demonstration flow summary
 The basic happy flow can be as follows:
 ```
 git checkout -b update-book-list
 atom src/main/java/com/github/demo/service/BookService.java
-```
-For example change the author or title of one of the books. If you first want to break the build you can add another book as there is a unit test that checks if the list returned by `getBooks()` returns exactly 5 books.
-```
 git status
 git add src/main/java/com/github/demo/service/BookService.java
 git commit -m "updated the list of books"
 git push origin HEAD
 ```
-This pushes the `update-book-list` branch to the server. Next go to GitHub and create the pull request to kick-off the discussion. Travis will run the build and test and you can then merge the pull request and delete the branch. Once the changes are merged back to `master` the application is deployed to Heroku. To run the application you can run the following command in your terminal:
+For example change the author or title of one of the books:
+```java
+static {
+    books.add(new Book("Michael Chabon","Summerland"));
+    books.add(new Book("Kurt Vonnegut","Slapstick"));
+    books.add(new Book("Michel Faber","Under the Skin"));
+    books.add(new Book("Julian Barnes","Flauberts Parrot"));
+    books.add(new Book("Henry David Thoreau","Walden"));
+}
+```
+If you first want to break the build you can add another book as there is a unit test that checks if the list returned by `getBooks()` returns exactly 5 books:
+```java
+@Test
+public void testGetBooks() {
+    List<Book> books = bookService.getBooks();
+    assertEquals("list length must be 5",5,books.size());
+}
+```
+Next go to GitHub and create the pull request to kick-off the discussion. Travis will run the build and test and you can then merge the pull request and delete the branch. Once the changes are merged back to `master` the application is deployed to Heroku. To run the application you can run the following command in your terminal:
 ```
 heroku open
 
