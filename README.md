@@ -152,3 +152,21 @@ To use IntelliJ import the Java project:
 - Provide a commit message
 - Click Commit to just commit or Commit and Push... to push the changes to GitHub
 - Click OK to push the changes to GitHub
+
+## Travis configuration
+The  minimal Travis configuration is a `.travis.yml` with the following content:
+```
+language: java
+```
+It will execute the standard maven build and test. The Travis configuration included also contains a second status check to show multiple status checks. It is executed before the build and test.
+```
+before_install:
+  - ./bogus-status-check.sh
+```
+This script requires a token that can be added as follows:
+```
+gem install travis
+export GITHUB_TOKEN=<TOKEN>
+travis encrypt TOKEN=$GITHUB_TOKEN --add  -e https://travis.octodemo.com/api --debug
+```
+As the script currently runs as user `bas` you also have to update the script `bogus-status-check.sh`.
