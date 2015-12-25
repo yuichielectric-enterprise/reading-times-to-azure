@@ -13,7 +13,7 @@ public class BookService {
         books.add(new Book("Michael Chabon","Summerland"));
         books.add(new Book("Kurt Vonnegut","Slapstick"));
         books.add(new Book("Michel Faber","Under the Skin"));
-        books.add(new Book("Julian Barnes","Arthur & George"));
+        books.add(new Book("Julian Barnes","Flauberts Parrot"));
         books.add(new Book("Henry David Thoreau","Walden"));
     }
 
@@ -21,4 +21,3 @@ public class BookService {
         return books;
     }
 }
-
