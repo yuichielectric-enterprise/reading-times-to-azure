@@ -10,11 +10,12 @@ public class BookService {
     private static List<Book> books = new ArrayList<Book>(5);;
 
     static {
-        books.add(new Book("Michael Chabon","Summerland"));
+        books.add(new Book("Philip K. Dick","The Three Stigmata of Palmer Eldritch"));
         books.add(new Book("Kurt Vonnegut","Slapstick"));
         books.add(new Book("Michel Faber","Under the Skin"));
         books.add(new Book("Julian Barnes","Flaubert's Parrot"));
         books.add(new Book("Henry David Thoreau","Walden"));
+        books.add(new Book("Michael Chabon","Summerland"));
     }
 
     public List<Book> getBooks() {
