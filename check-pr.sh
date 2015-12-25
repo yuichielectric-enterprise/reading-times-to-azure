@@ -7,13 +7,11 @@ curl -u bas:$TOKEN -H "Accept: application/json" -H "Content-type: application/j
 
 result=$(curl -s -u bas:$TOKEN -H "Accept: application/json" -H "Content-type: application/json"  https://octodemo.com/api/v3/repos/office-tools/reading-time-app/pulls/$TRAVIS_PULL_REQUEST | jq '.body')
 
-#count=${#result}
+count=${#result}
 
-#count=70
+echo "$count"
 
-#echo "$count"
-
-if [ ${#result} -lt 50 ]
+if [ $count -lt 50 ]
 then
   echo "Please add a PR comment of at least 50 characters"
   CSTATUS="failure"
