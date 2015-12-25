@@ -5,7 +5,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,18 +19,6 @@ import java.util.List;
 )
 public class BookServlet extends HttpServlet {
 
-    ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-
-        resolver.setPrefix("/");
-        resolver.setSuffix(".html");
-        resolver.setCacheable(true);
-        resolver.setCacheTTLMs(60000L);
-    }
-
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -45,6 +32,8 @@ public class BookServlet extends HttpServlet {
         BookService service = new BookService();
         List books = service.getBooks();
 
+        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
+        resolver.setSuffix(".html");
         TemplateEngine engine = new TemplateEngine();
         engine.setTemplateResolver(resolver);
 
