@@ -7,9 +7,9 @@ curl -u bas:$TOKEN -H "Accept: application/json" -H "Content-type: application/j
 
 result=$(curl -u bas:$TOKEN -H "Accept: application/json" -H "Content-type: application/json"  https://octodemo.com/api/v3/repos/office-tools/reading-time-app/pulls/$TRAVIS_PULL_REQUEST | jq '.body')
 
-sleep 10
+#count=${#result}
 
-count=${#result}
+count=70
 
 echo "$count"
 
