@@ -9,11 +9,11 @@ result=$(curl -u bas:$TOKEN -H "Accept: application/json" -H "Content-type: appl
 
 #count=${#result}
 
-count=70
+#count=70
 
-echo "$count"
+#echo "$count"
 
-if [ $count -lt 50 ]
+if [ ${#result} -lt 50 ]
 then
   echo "Please add a PR comment of at least 50 characters"
   CSTATUS="failure"
