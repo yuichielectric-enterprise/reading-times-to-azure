@@ -52,14 +52,18 @@ heroku create
 git push heroku master
 heroku open
 ```
-- Created a token for deployment integration:
+- Remember the name of the application. You can also provide one using:
+```
+heroku create reading-time-app
+```
+- Create a token for deployment integration:
 ```
 heroku plugins:install https://github.com/heroku/heroku-oauth
 heroku authorizations:create --description "For use with octodemo.com"
 ```
 - Add *Travis CI* service hook for end-point `https://travis.octodemo.com/listener`
 - Add *GitHub Auto-Deployment* hook for end-point `https://octodemo.com/api/v3` with GitHub token scope `repo` with `continuous-integration/travis-ci` as status context
-- Add *HerokuBeta* service hook for end-point `https://octodemo.com/api/v3` with GitHub token scope `repo-deployment`
+- Add *HerokuBeta* service hook for end-point `https://octodemo.com/api/v3` with GitHub token scope `repo-deployment`, the created Heroku token and the name of the Heroku application
 
 For the deployments integration I simply followed the steps described in [Automating deployments to integrators](https://developer.github.com/guides/automating-deployments-to-integrators/).
 
@@ -84,9 +88,15 @@ To create and view the `reading-time-app` reports:
 mvn site
 open target/site/index.html
 ```
+## Import project in IntelliJ
+To use IntelliJ import the Java project:
+- File>New>Project from Existing Sources...
+- Select the project on the file system and click OK
+- Select `import project from external model`, select `maven` and click Next
+- Follow the steps and accepts defaults and click Finish to import the project
 
 ## Demonstration flow summary
-The basic happy flow can be as follows:
+The basic flow can be as follows:
 ```
 git checkout -b update-book-list
 atom src/main/java/com/github/demo/service/BookService.java
@@ -95,7 +105,7 @@ git add src/main/java/com/github/demo/service/BookService.java
 git commit -m "updated the list of books"
 git push origin HEAD
 ```
-For example change the author or title of one of the books in `BookService.java`:
+For example change the author or title of one of the books in [BookService.java](src/main/java/com/github/demo/service/BookService.java):
 ```java
 static {
     books.add(new Book("Michael Chabon","Summerland"));
