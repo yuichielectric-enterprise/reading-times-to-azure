@@ -44,8 +44,8 @@ mvn -version
 IntelliJ  is optional, you can use any editor including for example Atom.
 
 ## Configuration
-This configuraiton assumes you are using `octodemo.com`.
-- Fork and clone the GitHub repository.
+This configuration assumes you are using `octodemo.com`.
+- Fork and clone the  `reading-time-app` repository.
 - Create the Heroku app, execute an initial deploy and open the web application:
 ```
 heroku create
@@ -93,17 +93,17 @@ git add src/main/java/com/github/demo/service/BookService.java
 git commit -m "updated the list of books"
 git push origin HEAD
 ```
-For example change the author or title of one of the books:
+For example change the author or title of one of the books in `BookService.java`:
 ```java
 static {
     books.add(new Book("Michael Chabon","Summerland"));
     books.add(new Book("Kurt Vonnegut","Slapstick"));
     books.add(new Book("Michel Faber","Under the Skin"));
-    books.add(new Book("Julian Barnes","Flauberts Parrot"));
+    books.add(new Book("Julian Barnes","Flaubert's Parrot"));
     books.add(new Book("Henry David Thoreau","Walden"));
 }
 ```
-If you first want to break the build you can add another book as there is a unit test that checks if the list returned by `getBooks()` returns exactly 5 books:
+If you first want to break the build you can add another book as there is a unit test that checks if the list returned by `BookService.getBooks()` returns exactly 5 books:
 ```java
 @Test
 public void testGetBooks() {
@@ -111,9 +111,16 @@ public void testGetBooks() {
     assertEquals("list length must be 5",5,books.size());
 }
 ```
-Next go to GitHub and create the pull request to kick-off the discussion. Travis will run the build and test and you can then merge the pull request and delete the branch. Once the changes are merged back to `master` the application is deployed to Heroku. To run the application you can run the following command in your terminal:
+Next go to GitHub and create the pull request to kick-off the discussion. Travis will run the build and test and you can then merge the pull request and delete the branch. In case you have initially broken the build, go to `BookService.java` remove a book from the list to make sure there are 5 books listed to pass the test and push the changes to the branch:
+```
+git branch // check if you are on the update-book-list branch
+git status
+git add src/main/java/com/github/demo/service/BookService.java
+git commit -m "removed a book from the list to pass the test"
+git push origin HEAD
+```
+Once the changes are merged back to `master` the application is deployed to Heroku. To run the application you can run the following command in your terminal:
 ```
 heroku open
-
 ```
 Make sure you run the command from the project directory.
