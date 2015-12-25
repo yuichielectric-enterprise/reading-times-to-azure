@@ -1,5 +1,3 @@
-REPOSITORY_NAME = "reading-time-app"
-
 echo "Travis Commit: $TRAVIS_COMMIT"
 echo "Token: $TOKEN"
 
