@@ -2,8 +2,10 @@
 The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, Maven and optional IntelliJ. The application simply lists a top 5 of favorite books. Travis is used for Continuous Integration (CI) and Heroku is used for deployments. A second bogus status check is added to demonstrate multiple status checks. The application is based on the Heroku tutorial [Create a Java Web Application Using Embedded Tomcat](https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat). It uses an embedded Tomcat servlet container. The project is structured as a standard Java Maven application:
 
 ```
-.
+..
 ├── Procfile
+├── README.md
+├── bogus-status-check.sh
 ├── pom.xml
 ├── reading-time-app.iml
 └── src
@@ -21,7 +23,8 @@ The `reading-time-app` is a basic Java web application to demo a Java developmen
     │   │               └── servlet
     │   │                   └── BookServlet.java
     │   └── webapp
-    │       └── books.jsp
+    │       ├── books.html
+    │       └── books_en.properties
     └── test
         └── java
             └── com
@@ -31,6 +34,7 @@ The `reading-time-app` is a basic Java web application to demo a Java developmen
                         │   └── BookTest.java
                         └── service
                             └── BookServiceTest.java
+
 ```
 ## Prerequisites
 - Install [IntelliJ](https://www.jetbrains.com/idea/)
