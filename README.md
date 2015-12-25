@@ -88,12 +88,24 @@ To create and view the `reading-time-app` reports:
 mvn site
 open target/site/index.html
 ```
-## Import project in IntelliJ
+## Using IntelliJ
+You can use IntelliJ as Java IDE, but it is optional. Editing files is no different from doing any other demo. It can be useful to show the Git and GitHub integration.
+### Import project in IntelliJ
 To use IntelliJ import the Java project:
-- File>New>Project from Existing Sources...
+- Choose File>New>Project from Existing Sources...
 - Select the project on the file system and click OK
 - Select `import project from external model`, select `maven` and click Next
 - Follow the steps and accepts defaults and click Finish to import the project
+### Creating a new branch
+- Choose VCS>Git>Branches...
+- Click the plus to create a new branch
+- Provide a branch name for example `add-julian-barnes-book`
+- Click OK
+### To commit an push changes
+- Choose VCS>Git>Commit File...
+- Provide a commit message
+- Click Commit to just commit or Commit and Push... to push the changes to GitHub
+- Click OK to push the changes to GitHub
 
 ## Demonstration flow summary
 The basic flow can be as follows:
