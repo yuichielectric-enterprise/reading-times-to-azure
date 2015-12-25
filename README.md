@@ -57,9 +57,11 @@ heroku open
 heroku plugins:install https://github.com/heroku/heroku-oauth
 heroku authorizations:create --description "For use with octodemo.com"
 ```
-- Add Travis CI service hook for end-point `https://travis.octodemo.com/listener`
-- Add GitHub Auto-Deployment Service Hook for end-point `https://octodemo.com/api/v3` with GitHub token scope `repo`
-- Add HerokuBeta Service Hook for end-point `https://octodemo.com/api/v3` with GitHub token scope `repo-deployment`
+- Add *Travis CI* service hook for end-point `https://travis.octodemo.com/listener`
+- Add *GitHub Auto-Deployment* hook for end-point `https://octodemo.com/api/v3` with GitHub token scope `repo` with `continuous-integration/travis-ci` as status context
+- Add *HerokuBeta* service hook for end-point `https://octodemo.com/api/v3` with GitHub token scope `repo-deployment`
+
+For the deployments integration I simply followed the steps described in [Automating deployments to integrators](https://developer.github.com/guides/automating-deployments-to-integrators/).
 
 ## Installing and running
 To install and run the `reading-time-app` application locally execute the following commands:
@@ -111,7 +113,7 @@ public void testGetBooks() {
     assertEquals("list length must be 5",5,books.size());
 }
 ```
-Next go to GitHub and create the pull request to kick-off the discussion. Travis will run the build and test and you can then merge the pull request and delete the branch. In case you have initially broken the build, go to `BookService.java` remove a book from the list to make sure there are 5 books listed to pass the test and push the changes to the branch:
+Next go to GitHub and create the pull request from the repository page by clicking **Compare & Pull Request** to kick-off the discussion. Travis will run the build and test and you can then merge the pull request and delete the branch. In case you have initially broken the build, go to `BookService.java` remove a book from the list to make sure there are 5 books listed to pass the test and push the changes to the branch:
 ```
 git branch // check if you are on the update-book-list branch
 git status
@@ -119,8 +121,8 @@ git add src/main/java/com/github/demo/service/BookService.java
 git commit -m "removed a book from the list to pass the test"
 git push origin HEAD
 ```
-Once the changes are merged back to `master` the application is deployed to Heroku. To run the application you can run the following command in your terminal:
+Visit the pull request to check if Travis CI passes all tests. Once the changes are merged back to `master` the application is deployed to Heroku. To run the application you can run the following command in your terminal:
 ```
 heroku open
 ```
-Make sure you run the command from the project directory.
+Make sure you run the command from the project directory. It might take a while before the changes are deployed and you might initially see the results of the previous successful deployment.
