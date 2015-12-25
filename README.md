@@ -1,5 +1,5 @@
 # reading-time-app
-The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, Maven, IntelliJ, Travis and Heroku. The applicaiton simply lists a top 5 of favorite books. Travis is used for Continuous Integration (CI) and Heroku is used for deployments. The application is based on the Heroku tutorial [Create a Java Web Application Using Embedded Tomcat](https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat). It run using an embedded Tomcat servlet container. The project is structured as a standard Java Maven application:
+The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, Maven and optional IntelliJ. The application simply lists a top 5 of favorite books. Travis is used for Continuous Integration (CI) and Heroku is used for deployments. A second bogus status check is added to demonstrate multiple status checks. The application is based on the Heroku tutorial [Create a Java Web Application Using Embedded Tomcat](https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat). It uses an embedded Tomcat servlet container. The project is structured as a standard Java Maven application:
 
 ```
 .
@@ -41,7 +41,7 @@ The `reading-time-app` is a basic Java web application to demo a Java developmen
 mvn -version
 ```
 
-IntelliJ  is optional, you can use any editor including for example Atom.
+IntelliJ  is optional, you can use any editor like Eclipse, Atom or the GitHub online editor.
 
 ## Configuration
 This configuration assumes you are using `octodemo.com`.
@@ -68,9 +68,8 @@ heroku authorizations:create --description "For use with octodemo.com"
 For the deployments integration I simply followed the steps described in [Automating deployments to integrators](https://developer.github.com/guides/automating-deployments-to-integrators/).
 
 ## Installing and running
-To install and run the `reading-time-app` application locally execute the following commands:
+To install and run the `reading-time-app` application fork and clone the application and execute the following commands:
 ```
-git clone
 mvn clean install
 sh target/bin/webapp
 open http://localhost:8080
@@ -88,6 +87,7 @@ To create and view the `reading-time-app` reports:
 mvn site
 open target/site/index.html
 ```
+Apart from [Junit](http://junit.org/), the following additional code analysis and reporting plug-ins are installed: [PMD](https://pmd.github.io/), [FindBugs](http://findbugs.sourceforge.net/), [Checkstyle](https://github.com/checkstyle/checkstyle) and [Maven JXR](http://maven.apache.org/jxr/).
 
 ## Demonstration flow summary
 The basic flow can be as follows:
