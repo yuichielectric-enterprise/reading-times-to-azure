@@ -94,7 +94,7 @@ To create and view the `reading-time-app` reports:
 mvn site
 open target/site/index.html
 ```
-Apart from [Junit](http://junit.org/), the following additional code analysis and reporting plug-ins are installed: [PMD](https://pmd.github.io/), [FindBugs](http://findbugs.sourceforge.net/), [Checkstyle](https://github.com/checkstyle/checkstyle) and [Maven JXR](http://maven.apache.org/jxr/).
+~~Apart from [Junit](http://junit.org/), the following additional code analysis and reporting plug-ins are installed: [PMD](https://pmd.github.io/), [FindBugs](http://findbugs.sourceforge.net/), [Checkstyle](https://github.com/checkstyle/checkstyle) and [Maven JXR](http://maven.apache.org/jxr/).~~
 
 ## Travis CI configuration
 The  minimal Travis CI configuration is a `.travis.yml` with the following content:
