@@ -93,70 +93,6 @@ open target/site/index.html
 ```
 Apart from [Junit](http://junit.org/), the following additional code analysis and reporting plug-ins are installed: [PMD](https://pmd.github.io/), [FindBugs](http://findbugs.sourceforge.net/), [Checkstyle](https://github.com/checkstyle/checkstyle) and [Maven JXR](http://maven.apache.org/jxr/).
 
-## Demonstration flow summary
-The basic flow can be as follows:
-```
-git checkout -b update-book-list
-atom src/main/java/com/github/demo/service/BookService.java
-git status
-git add src/main/java/com/github/demo/service/BookService.java
-git commit -m "updated the list of books"
-git push origin HEAD
-```
-For example change the author or title of one of the books in [BookService.java](src/main/java/com/github/demo/service/BookService.java):
-```java
-static {
-    books.add(new Book("Michael Chabon","Summerland"));
-    books.add(new Book("Kurt Vonnegut","Slapstick"));
-    books.add(new Book("Michel Faber","Under the Skin"));
-    books.add(new Book("Julian Barnes","Flaubert's Parrot"));
-    books.add(new Book("Henry David Thoreau","Walden"));
-}
-```
-If you first want to break the build you can add another book as there is a unit test that checks if the list returned by `BookService.getBooks()` returns exactly 5 books:
-```java
-@Test
-public void testGetBooks() {
-    List<Book> books = bookService.getBooks();
-    assertEquals("list length must be 5",5,books.size());
-}
-```
-Next go to GitHub and create the pull request from the repository page by clicking **Compare & Pull Request** to kick-off the discussion. Travis will run the build and test and you can then merge the pull request and delete the branch. In case you have initially broken the build, go to `BookService.java` remove a book from the list to make sure there are 5 books listed to pass the test and push the changes to the branch:
-```
-git branch // check if you are on the update-book-list branch
-git status
-git add src/main/java/com/github/demo/service/BookService.java
-git commit -m "removed a book from the list to pass the test"
-git push origin HEAD
-```
-Visit the pull request to check if Travis CI passes all tests. Once the changes are merged back to `master` the application is deployed to Heroku. To run the application you can run the following command in your terminal:
-```
-heroku open
-```
-Make sure you run the command from the project directory. It might take a while before the changes are deployed and you might initially see the results of the previous successful deployment.
-
-## Using IntelliJ
-You can use IntelliJ as Java IDE, but it is optional. Editing files is no different from doing any other demo. It can be useful to show the Git and GitHub integration.
-
-### Import project in IntelliJ
-To use IntelliJ import the Java project:
-- Choose File>New>Project from Existing Sources...
-- Select the project on the file system and click OK
-- Select `import project from external model`, select `maven` and click Next
-- Follow the steps and accepts defaults and click Finish to import the project
-
-### Creating a new branch
-- Choose VCS>Git>Branches...
-- Click the plus to create a new branch
-- Provide a branch name for example `add-julian-barnes-book`
-- Click OK
-
-### To commit an push changes
-- Choose VCS>Git>Commit File...
-- Provide a commit message
-- Click Commit to just commit or Commit and Push... to push the changes to GitHub
-- Click OK to push the changes to GitHub
-
 ## Travis configuration
 The  minimal Travis configuration is a `.travis.yml` with the following content:
 ```
@@ -174,3 +110,5 @@ export GITHUB_TOKEN=<TOKEN>
 travis encrypt TOKEN=$GITHUB_TOKEN --add  -e https://travis.octodemo.com/api --debug
 ```
 As the script currently runs as user `bas` you also have to update the script `bogus-status-check.sh`.
+
+There is a brief [Example Demonstration Guide](docs/example-demo-guide.md) in the docs directory.

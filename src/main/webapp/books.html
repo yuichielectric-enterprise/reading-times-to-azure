@@ -5,7 +5,7 @@
         <h2 th:text="#{books.title}"></h2>
         <p th:text="#{books.intro}"></p>
         <div th:each="book, i : ${books}">
-            <p th:inline="text">[[${i.count}]]. <i>[[${book.title}]]</i> by [[${book.author}]]</p>
+            <p th:inline="text">[[${i.count}]]. <i>[[${book.title}]]</i> [[#{books.by}]] [[${book.author}]]</p>
         </div>
     </body>
 </html>
