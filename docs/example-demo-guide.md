@@ -51,14 +51,16 @@ heroku open
 Make sure you run the command from the project directory. It might take a while before the changes are deployed and you might initially see the results of the previous successful deployment.
 
 ## Using IntelliJ
-You can use IntelliJ as Java IDE, but it is optional. Editing files is no different from doing any other demo. It can be useful to show the Git and GitHub integration.
+You can use IntelliJ Community Edition as Java IDE, but it is optional. Editing files is no different from doing any other demo. It can be useful to show the Git and GitHub integration.
 
-### Import project in IntelliJ
-To use IntelliJ import the Java project:
+### Import local project in IntelliJ
+To use IntelliJ import a local Java project:
 - Choose File>New>Project from Existing Sources...
 - Select the project on the file system and click OK
 - Select `import project from external model`, select `maven` and click Next
 - Follow the steps and accepts defaults and click Finish to import the project
+
+You can also import the project from GitHub using the [GitHub integration](https://www.jetbrains.com/idea/help/using-github-integration.html).
 
 ### Creating a new branch
 - Choose VCS>Git>Branches...
