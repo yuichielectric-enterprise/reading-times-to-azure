@@ -112,7 +112,14 @@ The Travis CI configuration included also contains a second status check to show
 before_install:
   - ./bogus-status-check.sh
 ```
-This script requires a token that can be added as follows:
+When install and test are successful documentation is generated to the `gh-pages` branch:
+```
+after_success:
+  - mvn clean site
+```
+The Maven documentation is published to [GitHub Pages](https://octodemo.com/pages/office-tools/reading-time-app)
+
+The `before_install` and `after_success` require a token that can be added to the `.travis.yml` configuration as follows:
 ```
 gem install travis
 export GITHUB_TOKEN=<TOKEN>

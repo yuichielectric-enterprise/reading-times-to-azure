@@ -1,6 +1,8 @@
 language: java
 before_install:
   - ./bogus-status-check.sh
+after_success:
+  - mvn clean site
 env:
   global:
     secure: IORWyb/2GJdnuOnCjNGJTxaR3mfImKEeqpX6xhb/Y5l7cyY30NViwQR8TCVgz/fX6jTZqqU9NDgdmRMDqpyx+lG/HW0eiPCPNcqwVYTaLVaIJbMpcZfPn5hSPM/lZqbgZb4T7RYWZ60X79tpjYbfLuvMhvEwP3u2K1Su97VFOdw=
