@@ -1,6 +1,12 @@
 # reading-time-app
 ## About
-The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, [Maven](https://maven.apache.org/) and optional [IntelliJ](https://www.jetbrains.com/idea/) as Java code editor. The application simply lists a top 5 of favorite books. It uses [Thymeleaf](http://www.thymeleaf.org/) as template engine. The application does not use [Spring](https://spring.io/). Spring is a widely used Java application framework. [Travis CI](https://travis-ci.com/) is used for Continuous Integration (CI) and [Heroku](https://dashboard.heroku.com/) is used for deployments. A second bogus status check is added to demonstrate multiple status checks.
+The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, [Maven](https://maven.apache.org/) and optional [IntelliJ](https://www.jetbrains.com/idea/) as Java code editor. The application simply lists a top 5 of favorite books. It uses [Thymeleaf](http://www.thymeleaf.org/) as template engine. The application does not use [Spring](https://spring.io/). Spring is a widely used Java application framework.
+
+The following integrations are included:
+- [Travis CI](https://travis-ci.com/) is used for Continuous Integration (CI).
+- A second bogus status check is added to demonstrate multiple status checks.
+- When Travis CI runs successful documentation is generated and published to the `gh-pages` branch.
+- [Heroku](https://dashboard.heroku.com/) is used for deployments when Travis CI runs successful and the branch is merged back to master.
 
 The application is loosely based on the Heroku tutorial [Create a Java Web Application Using Embedded Tomcat](https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat). It uses an embedded Tomcat servlet container. The project is structured as a standard Java Maven application:
 

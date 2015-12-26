@@ -50,6 +50,9 @@ heroku open
 ```
 Make sure you run the command from the project directory. It might take a while before the changes are deployed and you might initially see the results of the previous successful deployment.
 
+Visit [GitHub Pages](https://octodemo.com/pages/office-tools/reading-time-app) to show that documentation is updated automatically when Travis CI passes all tests.
+
+
 ## Using IntelliJ
 You can use IntelliJ Community Edition as Java IDE, but it is optional. Editing files is no different from doing any other demo. It can be useful to show the Git and GitHub integration.
 
