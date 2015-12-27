@@ -1,6 +1,6 @@
 # reading-time-app
 ## About
-The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, [Maven](https://maven.apache.org/) and optional [IntelliJ](https://www.jetbrains.com/idea/) as Java code editor. The application simply lists a top 5 of favorite books. It uses [Thymeleaf](http://www.thymeleaf.org/) as template engine. The application does not use [Spring](https://spring.io/). Spring is a Java application framework that is used for most Java applications, but for this demo it would introduce unnecessary complexity.
+The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, [Maven](https://maven.apache.org/) and optional [IntelliJ](https://www.jetbrains.com/idea/) as Java code editor. The application simply lists a top 5 of favorite books. It uses [Thymeleaf](http://www.thymeleaf.org/) as template engine. The application does not use [Spring](https://spring.io/). Spring is a Java application framework that is used for most Java applications, but for this demo it would make the code unnecessary complex.
 
 The following integrations are included:
 - [Travis CI](https://travis-ci.com/) is used for Continuous Integration (CI).
@@ -104,7 +104,7 @@ open target/site/index.html
 ```
 
 ## Travis CI configuration
-The minimal Travis CI configuratio for Java is a [.travis.yml](.travis.yml) file with the following content:
+The minimal Travis CI configuration for Java is a [.travis.yml](.travis.yml) file with the following content:
 ```
 language: java
 ```
