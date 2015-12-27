@@ -1,10 +1,6 @@
 # reading-time-app
 ## About
-The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, [Maven](https://maven.apache.org/) and optional [IntelliJ](https://www.jetbrains.com/idea/) as Java code editor. The application simply lists a top 5 of favorite books.
-
-![](https://octodemo.com/github-enterprise-assets/0000/0133/0000/0025/c3eb7396-acb2-11e5-9e0a-61cc1f1deaf3.png)
-
-It uses [Thymeleaf](http://www.thymeleaf.org/) as template engine. The application does not use [Spring](https://spring.io/). Spring is a Java application framework that is used for most Java applications, but for this demo it would make the code unnecessary complex.
+The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, [Maven](https://maven.apache.org/) and optional [IntelliJ](https://www.jetbrains.com/idea/) as Java code editor. The application simply lists a top 5 of favorite books. It uses [Thymeleaf](http://www.thymeleaf.org/) as template engine. The application does not use [Spring](https://spring.io/). Spring is a Java application framework that is used for most Java applications, but for this demo it would make the code unnecessary complex.
 
 The following integrations are included:
 - [Travis CI](https://travis-ci.com/) is used for Continuous Integration (CI).
