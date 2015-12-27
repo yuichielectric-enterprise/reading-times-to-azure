@@ -83,6 +83,23 @@
             </plugin>
         </plugins>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+    <description>A Java example project to demonstrate a Java development stack with Maven, Travis CI and Heroku deployments.</description>
     <ciManagement>
         <system>Travis CI</system>
         <url>https://travis.octodemo.com/office-tools/reading-time-app</url>

@@ -1,17 +1,18 @@
 # reading-time-app
 ## About
-The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, [Maven](https://maven.apache.org/) and optional [IntelliJ](https://www.jetbrains.com/idea/) as Java code editor. The application simply lists a top 5 of favorite books. It uses [Thymeleaf](http://www.thymeleaf.org/) as template engine. The application does not use [Spring](https://spring.io/). Spring is a widely used Java application framework.
+The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, [Maven](https://maven.apache.org/) and optional [IntelliJ](https://www.jetbrains.com/idea/) as Java code editor. The application simply lists a top 5 of favorite books. It uses [Thymeleaf](http://www.thymeleaf.org/) as template engine. The application does not use [Spring](https://spring.io/). Spring is a Java application framework that is used for most Java applications, but for this demo it would introduce unnecessary complexity.
 
 The following integrations are included:
 - [Travis CI](https://travis-ci.com/) is used for Continuous Integration (CI).
 - A second bogus status check is added to demonstrate multiple status checks.
-- When Travis CI runs successful documentation is generated and published to the `gh-pages` branch.
-- [Heroku](https://dashboard.heroku.com/) is used for deployments when Travis CI runs successful and the branch is merged back to master.
+- When Travis CI passes all tests documentation is generated and published to the `gh-pages` branch.
+- A Checkstyle project report on coding style conventions is included as an example report in the documentation.
+- [Heroku](https://dashboard.heroku.com/) is used to deploy the application when the branch is merged back to master and Travis CI passes all tests.
 
 The application is loosely based on the Heroku tutorial [Create a Java Web Application Using Embedded Tomcat](https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat). It uses an embedded Tomcat servlet container. The project is structured as a standard Java Maven application:
 
 ```
-..
+.
 ├── Procfile
 ├── README.md
 ├── bogus-status-check.sh
@@ -45,6 +46,7 @@ The application is loosely based on the Heroku tutorial [Create a Java Web Appli
                             └── BookServiceTest.java
 
 ```
+This code might look a bit complex for what it does, but Java developers love patterns as much as Rails developers love [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration), so it follows the [Model-view-controller (MVC)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) pattern. The only class you need to edit in the demo is the [BookService.java](src/main/java/com/github/demo/service/BookService.java) class.
 ## Prerequisites
 - Install [IntelliJ](https://www.jetbrains.com/idea/)
 - Create a Heroku account
@@ -54,7 +56,7 @@ The application is loosely based on the Heroku tutorial [Create a Java Web Appli
 mvn -version
 ```
 
-IntelliJ  is optional, you can use any editor like Eclipse, Atom or edit directly on GitHub.
+Using IntelliJ is optional, you can use any editor like Eclipse or Atom or edit directly on GitHub.
 
 ## Configuration
 This configuration assumes you are using `octodemo.com`.
@@ -100,10 +102,9 @@ To create and view the `reading-time-app` reports:
 mvn site
 open target/site/index.html
 ```
-~~Apart from [Junit](http://junit.org/), the following additional code analysis and reporting plug-ins are installed: [PMD](https://pmd.github.io/), [FindBugs](http://findbugs.sourceforge.net/), [Checkstyle](https://github.com/checkstyle/checkstyle) and [Maven JXR](http://maven.apache.org/jxr/).~~
 
 ## Travis CI configuration
-The  minimal Travis CI configuration is a `.travis.yml` with the following content:
+The minimal Travis CI configuratio for Java is a [.travis.yml](.travis.yml) file with the following content:
 ```
 language: java
 ```
@@ -123,7 +124,13 @@ When install and test are successful documentation is generated to the `gh-pages
 after_success:
   - mvn clean site
 ```
-The Maven documentation is published to [GitHub Pages](https://octodemo.com/pages/office-tools/reading-time-app)
+The Maven documentation is published to [GitHub Pages](https://octodemo.com/pages/office-tools/reading-time-app).
+
+Maven `site` creates basic project documentation and generates a   [Checkstyle](https://github.com/checkstyle/checkstyle) project report on coding style conventions as an example report.
+
+Other reports like [PMD](https://pmd.github.io/), [FindBugs](http://findbugs.sourceforge.net/) or [Maven JXR](http://maven.apache.org/jxr/) can be included in the Maven [pom.xml](pom.xml).
+
+**Note:** it is not recommended to include Maven Javadoc as it takes several minutes to complete which is not very convenient during a live demo.
 
 The `before_install` and `after_success` require a token that can be added to the `.travis.yml` configuration as follows:
 ```
@@ -131,5 +138,10 @@ gem install travis
 export GITHUB_TOKEN=<TOKEN>
 travis encrypt TOKEN=$GITHUB_TOKEN --add  -e https://travis.octodemo.com/api --debug
 ```
-
+## Heroku configuration
+The Heroku configuration is in [Procfile](Procfile). It specifies the process to run after a deployment:
+```
+web: sh target/bin/webapp
+```
+## Demonstration guide
 There is a brief [Example Demonstration Guide](docs/example-demo-guide.md) in the docs directory.

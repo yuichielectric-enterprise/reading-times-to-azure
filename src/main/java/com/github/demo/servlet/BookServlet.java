@@ -6,17 +6,20 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 @WebServlet(
         name = "BookServlet",
         urlPatterns = {"/"}
 )
+@WebInitParam(name = "allowedTypes", value = "html")
 public class BookServlet extends HttpServlet {
 
     @Override
@@ -39,6 +42,7 @@ public class BookServlet extends HttpServlet {
 
         WebContext ctx =
                 new WebContext(req, resp, getServletContext(), req.getLocale());
+        ctx.setVariable("modified", Calendar.getInstance());
         ctx.setVariable("books", books);
         engine.process("books", ctx, resp.getWriter());
     }

@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <style>
+            div.header {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                font-size: 250%;
+                font-style: bold;
+            }
+            div.footer {
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                font-size: 80%;
+            }
+        </style>
+    </head>
     <body>
-        <h2 th:text="#{books.title}"></h2>
-        <p th:text="#{books.intro}"></p>
-        <div th:each="book, i : ${books}">
-            <p th:inline="text">[[${i.count}]]. <i>[[${book.title}]]</i> [[#{books.by}]] [[${book.author}]]</p>
+        <div class="header">
+            <span th:text="#{books.title}"></span>
+        </div>
+        <div class="body">
+            <p th:text="#{books.intro}"></p>
+            <div th:each="book, i : ${books}">
+                <p th:inline="text">[[${i.count}]]. <i>[[${book.title}]]</i> [[#{books.by}]] [[${book.author}]]</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p th:inline="text">[[#{books.modified}]]: [[${#calendars.format(modified,'dd MMMM yyyy HH:mm:ss')}]]</p>
         </div>
     </body>
 </html>
