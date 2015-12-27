@@ -138,12 +138,7 @@ gem install travis
 export GITHUB_TOKEN=<TOKEN>
 travis encrypt TOKEN=$GITHUB_TOKEN --add  -e https://travis.octodemo.com/api --debug
 ```
-To speed up Travis CI builds the maven repository is cached:
-```
-cache:
-  directories:
-  - $HOME/.m2
-```
+
 ## Heroku configuration
 The Heroku configuration is in [Procfile](Procfile). It specifies the process to run after a deployment:
 ```
