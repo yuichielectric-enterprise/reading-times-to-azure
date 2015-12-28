@@ -15,6 +15,7 @@ public class BookService {
         books.add(new Book("Michel Faber","Under the Skin"));
         books.add(new Book("Julian Barnes","A History of the World in 10½ Chapters"));
         books.add(new Book("Henry David Thoreau","Walden"));
+        books.add(new Book("Douglas Adams", "The Hitchhiker's Guide to the Galaxy"));
     }
 
     public List<Book> getBooks() {
