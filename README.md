@@ -1,12 +1,13 @@
 # reading-time-app
 ## About
-The `reading-time-app` is a basic Java web application to demo a Java development stack using Java, [Maven](https://maven.apache.org/) and optional [IntelliJ](https://www.jetbrains.com/idea/) as Java code editor. The application simply lists a top 5 of favorite books. It uses [Thymeleaf](http://www.thymeleaf.org/) as template engine. The application does not use [Spring](https://spring.io/). Spring is a Java application framework that is used for most Java applications, but for this demo it would make the code unnecessary complex.
+The [reading-time-app](https://reading-time-app.herokuapp.com/) is a web application using Java and [Maven](https://maven.apache.org/). It lists a top 5 of favorite books. It was originally created to demo GitHub for Java development. The repository allows you to demonstrate GitHub with the following integrations:
 
-The following integrations are included:
+- It can be used with any editor including Java editors like [IntelliJ](https://www.jetbrains.com/idea/) or [Eclipse](https://eclipse.org/), [Atom](https://atom.io/) or editing directly using GitHub.
+- Demonstrate GitHub Flow by editing the [BookService.java](src/main/java/com/github/demo/service/BookService.java) class.
 - [Travis CI](https://travis-ci.com/) is used for Continuous Integration (CI).
 - A second bogus status check is added to demonstrate multiple status checks.
-- When Travis CI passes all tests documentation is generated and published to the `gh-pages` branch.
-- A Checkstyle project report on coding style conventions is included as an example report in the documentation.
+- When Travis CI passes all tests [documentation](https://octodemo.com/pages/office-tools/reading-time-app/) is generated and published to the `gh-pages` branch.
+- A [Checkstyle](https://octodemo.com/pages/office-tools/reading-time-app/checkstyle.html) project report on coding style conventions is included as an example report in the documentation.
 - [Heroku](https://dashboard.heroku.com/) is used to deploy the application when the branch is merged back to master and Travis CI passes all tests.
 
 The application is loosely based on the Heroku tutorial [Create a Java Web Application Using Embedded Tomcat](https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat). It uses an embedded Tomcat servlet container. The project is structured as a standard Java Maven application:
@@ -46,15 +47,20 @@ The application is loosely based on the Heroku tutorial [Create a Java Web Appli
                             └── BookServiceTest.java
 
 ```
-This code might look a bit complex for what it does, but Java developers love patterns as much as Rails developers love [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration), so it follows the [Model-view-controller (MVC)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) pattern. The only class you need to edit in the demo is the [BookService.java](src/main/java/com/github/demo/service/BookService.java) class.
+This code might look a bit complex for what it does, but Java developers love patterns as much as Rails developers love convention over configuration, so it follows the [Model-view-controller (MVC)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) pattern. But no worries! The only class you need to edit in the demo is the [BookService.java](src/main/java/com/github/demo/service/BookService.java) class. :smile:
+
+Check out the brief [Example Demonstration Guide](docs/example-demo-guide.md) in the docs directory.
+
 ## Prerequisites
-- Install [IntelliJ](https://www.jetbrains.com/idea/)
+- Install [IntelliJ](https://www.jetbrains.com/idea/) (optional)
 - Create a Heroku account
 - Install [Heroku Toolbelt CLI](https://toolbelt.heroku.com/)
 - Make sure you have Maven installed:
 ```
 mvn -version
 ```
+
+Java and Maven 3 should be installed by default on Mac OSX.
 
 Using IntelliJ is optional, you can use any editor like Eclipse or Atom or edit directly on GitHub.
 
@@ -124,15 +130,15 @@ When install and test are successful documentation is generated to the `gh-pages
 after_success:
   - mvn clean site
 ```
-The Maven documentation is published to [GitHub Pages](https://octodemo.com/pages/office-tools/reading-time-app).
+The Maven documentation is published to a [GitHub Pages site](https://octodemo.com/pages/office-tools/reading-time-app).
 
-Maven `site` creates basic project documentation and generates a   [Checkstyle](https://github.com/checkstyle/checkstyle) project report on coding style conventions as an example report.
+Maven `site` creates basic project documentation and generates a   [Checkstyle](https://github.com/checkstyle/checkstyle) project report on coding style conventions as an example report. It generates plenty of errors as the code does not follow the Sun coding guidelines at all.
 
 Other reports like [PMD](https://pmd.github.io/), [FindBugs](http://findbugs.sourceforge.net/) or [Maven JXR](http://maven.apache.org/jxr/) can be included in the Maven [pom.xml](pom.xml).
 
-**Note:** it is not recommended to include Maven Javadoc as it takes several minutes to complete which is not very convenient during a live demo.
+**Note:** it is not recommended to include Maven Javadoc as it takes several minutes to write about 300 blobs to the `gh-pages` branch which is not very convenient during a live demo.
 
-The `before_install` and `after_success` require a token that can be added to the `.travis.yml` configuration as follows:
+The `before_install` and `after_success` steps require a token that can be added to the `.travis.yml` configuration as follows:
 ```
 gem install travis
 export GITHUB_TOKEN=<TOKEN>
