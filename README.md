@@ -1,6 +1,6 @@
 # reading-time-app
 ## About
-The [reading-time-app](https://reading-time-app.herokuapp.com/) is a web application using Java and [Maven](https://maven.apache.org/). It lists a top 5 of favorite books. It was originally created to demo GitHub for Java development. The repository allows you to demonstrate GitHub with the following integrations:
+The [reading-time-app](https://reading-time-app.herokuapp.com/) is a demo web application using Java and [Maven](https://maven.apache.org/). It lists a top 5 of staff recommended books. The repository allows you to demonstrate GitHub with the following integrations:
 
 - It can be used with any editor including Java editors like [IntelliJ](https://www.jetbrains.com/idea/) or [Eclipse](https://eclipse.org/), [Atom](https://atom.io/) or editing directly using GitHub.
 - Demonstrate GitHub Flow by editing the [BookService.java](src/main/java/com/github/demo/service/BookService.java) class.
@@ -48,8 +48,6 @@ The application is loosely based on the Heroku tutorial [Create a Java Web Appli
 
 ```
 This code might look a bit complex for what it does, but Java developers love patterns as much as Rails developers love convention over configuration, so it follows the [Model-view-controller (MVC)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) pattern. But no worries! The only class you need to edit in the demo is the [BookService.java](src/main/java/com/github/demo/service/BookService.java) class. :smile:
-
-Check out the brief [Example Demonstration Guide](docs/example-demo-guide.md) in the docs directory.
 
 ## Prerequisites
 - Install [IntelliJ](https://www.jetbrains.com/idea/) (optional)
@@ -156,5 +154,3 @@ The Heroku configuration is in [Procfile](Procfile). It specifies the process to
 ```
 web: sh target/bin/webapp
 ```
-## Demonstration guide
-There is a brief [Example Demonstration Guide](docs/example-demo-guide.md) in the docs directory.
