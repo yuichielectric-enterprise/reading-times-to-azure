@@ -1,4 +1,5 @@
 # reading-time-app
+[![Build Status](https://travis.octodemo.com/office-tools/reading-time-app.svg?token=4BJC1aYF8GpY15tJT53f&branch=master)](https://travis.octodemo.com/office-tools/reading-time-app)
 ## About
 The [reading-time-app](https://reading-time-app.herokuapp.com/) is a demo web application using Java and [Maven](https://maven.apache.org/). It lists a top 5 of staff recommended books. The repository allows you to demonstrate GitHub with the following integrations:
 
