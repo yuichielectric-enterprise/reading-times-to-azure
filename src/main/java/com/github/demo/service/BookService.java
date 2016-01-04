@@ -14,7 +14,7 @@ public class BookService {
         books.add(new Book("Kurt Vonnegut","Galápagos"));
         books.add(new Book("Michel Faber","The Book Of Strange New Things"));
         books.add(new Book("Julian Barnes","A History of the World in 10½ Chapters"));
-        books.add(new Book("Yuval Noah Harari", "Sapiens: A Brief History of Humankind etc.."));
+        books.add(new Book("Yuval Noah Harari", "Sapiens: A Brief History of Humankind"));
     }
 
     public List<Book> getBooks() {
