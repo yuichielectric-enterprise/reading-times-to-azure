@@ -1,6 +1,7 @@
 echo "Travis Commit: $TRAVIS_COMMIT"
 echo "Travis Branch: $TRAVIS_BRANCH"
 echo "Travis repo: $TRAVIS_REPO_SLUG"
+echo "Token: $TOKEN"
 
 deployment_id=$(curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"ref": "bas-patch-2","description": "Deploying branch to neverland", "environment": "test"}' https://octodemo.com/api/v3/repos/office-tools/reading-time-app/deployments | jq '.id')
 
