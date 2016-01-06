@@ -1,10 +1,4 @@
-echo "Travis Commit: $TRAVIS_COMMIT"
-echo "Travis Branch: $TRAVIS_BRANCH"
-echo "Travis repo: $TRAVIS_REPO_SLUG"
-
-echo "Branch: $BRANCH"
-
-deployment_id=$(curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"ref": "'"$TRAVIS_COMMIT"'","description": "Deploying branch to neverland", "environment": "test"}' https://octodemo.com/api/v3/repos/office-tools/reading-time-app/deployments | jq '.id')
+deployment_id=$(curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"ref": "'"$1"'","description": "Deploying branch to neverland", "environment": "test"}' https://octodemo.com/api/v3/repos/office-tools/reading-time-app/deployments | jq '.id')
 
 echo "Deployment ID: $deployment_id"
 
