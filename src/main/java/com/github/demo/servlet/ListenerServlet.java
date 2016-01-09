@@ -9,7 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -120,7 +123,8 @@ public class ListenerServlet extends HttpServlet {
         data.put("environment", "heroku-test");
 
         URL url = new URL(gheHost + "repos/" + name + "/deployments");
-        int reponseCode = doCall(url, data);
+
+        doCall(url, data);
     }
 
     private int doCall(URL url, JSONObject data) throws MalformedURLException, IOException {
