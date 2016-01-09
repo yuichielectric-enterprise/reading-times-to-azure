@@ -62,8 +62,13 @@ public class ListenerServlet extends HttpServlet {
 
             String action = obj.getString("action");
 
-            if (action.equalsIgnoreCase("created")) {
-                startDeployment(obj);
+            JSONObject issue = obj.getJSONObject("issue");
+
+            String body = obj.getJSONObject("comment").getString("body");
+
+            if (action.equalsIgnoreCase("created") && issue.has("pull_request") && shipIt(body)) {
+                String url = issue.getJSONObject("pull_request").getString("url");
+                startDeployment(url);
             }
 
         } else if (event.equalsIgnoreCase("deployment")) {
@@ -97,8 +102,8 @@ public class ListenerServlet extends HttpServlet {
         doCall(url, data);
     }
 
-    private void startDeployment(JSONObject obj) throws MalformedURLException, IOException {
-        String pullRequestUrl = obj.getJSONObject("issue").getJSONObject("pull_request").getString("url");
+    private void startDeployment(String pullRequestUrl) throws MalformedURLException, IOException {
+        System.err.println("Starting deployment...");
 
         JSONObject pullRequest = getPullRequest(pullRequestUrl);
 
