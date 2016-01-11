@@ -1,7 +1,7 @@
 sudo: false
 language: java
 before_cache:
-  - echo "running before cache..."
+  - echo "running before cache for ${HOME}"
 cache:
   directories:
   - "$HOME/.m2"
