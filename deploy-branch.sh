@@ -1,4 +1,4 @@
-: ${GITHUB_TOKEN?"Please set environment variable TOKEN to the GitHub access token"}
+: ${GITHUB_TOKEN?"Please set environment variable GITHUB_TOKEN to the GitHub access token"}
 
 echo -e "Hi, please type the name of the branch: \c "
 read  branch
