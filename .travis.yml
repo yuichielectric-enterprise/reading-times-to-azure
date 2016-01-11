@@ -4,6 +4,7 @@ jdk: oraclejdk7
 before_install:
   - './bogus-status-check.sh'
 after_success:
+  - ls -l $HOME/.m2
   - mvn clean site
 cache:
   directories:
