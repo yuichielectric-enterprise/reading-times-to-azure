@@ -2,7 +2,7 @@ sudo: false
 language: java
 jdk: oraclejdk7
 before_install:
-  - './bogus-status-check.sh'
+  - ./bogus-status-check.sh
 after_success:
   - mvn clean site
 cache:
