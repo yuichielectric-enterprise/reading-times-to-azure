@@ -155,3 +155,6 @@ The Heroku configuration is in [Procfile](Procfile). It specifies the process to
 ```
 web: sh target/bin/webapp
 ```
+
+## Contributing
+Read [How to contribute](CONTRIBUTING.md) how to contribute to the `reading-time-app`.
