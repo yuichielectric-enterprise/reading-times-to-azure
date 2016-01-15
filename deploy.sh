@@ -1,5 +1,7 @@
 ref=$(curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" https://octodemo.com/api/v3/repos/${TRAVIS_REPO_SLUG}/pulls/$TRAVIS_PULL_REQUEST | jq '.head.ref')
 
+echo "Pull Request: $ref"
+
 if (($ref == null))
 then
   echo "Unable to get the branch name"
