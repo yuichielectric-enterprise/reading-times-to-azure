@@ -18,10 +18,12 @@ The application is loosely based on the Heroku tutorial [Create a Java Web Appli
 ├── CONTRIBUTING.md
 ├── Procfile
 ├── README.md
-├── deploy-cli.sh
-├── deploy.sh
 ├── pom.xml
 ├── reading-time-app.iml
+├── scripts
+│   ├── deploy-cli.sh
+│   ├── deploy.sh
+│   └── status-checks.sh
 ├── src
 │   ├── main
 │   │   ├── java
@@ -52,7 +54,6 @@ The application is loosely based on the Heroku tutorial [Create a Java Web Appli
 │                       │   └── BookTest.java
 │                       └── service
 │                           └── BookServiceTest.java
-├── status-checks.sh
 
 ```
 This code might look a bit complex for what it does, but Java developers love patterns as much as Rails developers love convention over configuration, so it follows the [Model-view-controller (MVC)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) pattern. But no worries! The only class you need to edit in the demo is the [BookService.java](src/main/java/com/github/demo/service/BookService.java) class. :smile:
@@ -126,17 +127,18 @@ mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 mvn test -B
 ```
 
-The Travis CI configuration included also contains a second status check to show multiple status checks by executing `status-checks.sh verify`. It is executed before the Maven install and test and runs a simple checkstyle configuration that checks is a method name starts with a lower case letter. If this is not the case the check fails. You can break the build by changing the name of the method `getDetails()` in class `Book`. 
+The Travis CI configuration included also contains a second status check to show multiple status checks by executing `status-checks.sh verify`. It is executed before the Maven install and test and runs a simple checkstyle configuration that checks is a method name starts with a lower case letter. If this is not the case the check fails. You can break the build by changing the name of the method `getDetails()` in class `Book`.
 
 ```
 before_install:
-  - ./status-checks.sh verify
+  - ./scripts/status-checks.sh verify
 ```
-When install and test are successful documentation is generated to the `gh-pages` branch. Another status check is created.
+When install and test are successful documentation is generated to the `gh-pages` branch. Another status check is created. Finally a deployment is executed for the branch. It will deploy the changes to the default Heroku app that is also used in production.
 
 ```
 after_success:
-  - ./status-checks.sh site
+  - ./scripts/status-checks.sh site
+  - ./scripts/deploy.sh
 ```
 The Maven documentation is published to a [GitHub Pages site](https://octodemo.com/pages/office-tools/reading-time-app).
 
