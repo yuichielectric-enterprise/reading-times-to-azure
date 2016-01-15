@@ -11,10 +11,10 @@ public class BookService {
 
     static {
         books.add(new Book("Philip K. Dick","The Three Stigmata of Palmer Eldritch"));
-        books.add(new Book("Kurt Vonnegut","Galápagos"));
+        //books.add(new Book("Kurt Vonnegut","Galápagos"));
         books.add(new Book("Michel Faber","The Book Of Strange New Things"));
         books.add(new Book("Julian Barnes","A History of the World in 10½ Chapters"));
-        //books.add(new Book("Yuval Noah Harari", "Sapiens: A Brief History of Humankind"));
+        books.add(new Book("Yuval Noah Harari", "Sapiens: A Brief History of Humankind"));
         books.add(new Book("Douglas Adams","The Hitchhiker's Guide to dah Galaxy"));
     }
 
