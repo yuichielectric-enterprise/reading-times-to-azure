@@ -10,6 +10,7 @@ script:
   - mvn install -DskipTests=true -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -B -V
   - mvn test -B -Dcheckstyle.skip=true
 after_success:
+  - ./status-checks.sh site
   - ./deploy.sh
 env:
   global:
