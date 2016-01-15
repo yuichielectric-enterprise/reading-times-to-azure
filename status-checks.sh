@@ -13,7 +13,7 @@ if [ "$1" = "verify" ]; then
   if [ $STATUS -eq 0 ]; then
     statuses "success" "Java code meets coding standards" "$1"
   else
-    statuses "failure" "Java code does not meeting coding standards" "$1"
+    statuses "failure" "Java code doesn't meet coding standards" "$1"
   fi
 elif [ "$1" = "site" ]; then
   statuses "pending" "Generating Maven project site" "$1"
