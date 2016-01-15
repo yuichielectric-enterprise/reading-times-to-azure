@@ -1,14 +1,8 @@
-ref=$(curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" https://octodemo.com/api/v3/repos/${TRAVIS_REPO_SLUG}/pulls/$TRAVIS_PULL_REQUEST | jq '.head.ref')
+ref=$(curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" https://octodemo.com/api/v3/repos/${TRAVIS_REPO_SLUG}/pulls/${TRAVIS_PULL_REQUEST} | jq '.head.ref')
 
 echo "Pull Request: $ref"
 
-if (($ref == null))
-then
-  echo "Unable to get the branch name"
-  exit 1
-fi
-
-deployment_id=$(curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"ref": "'"$ref"'","description": "Deploying branch to test", "environment": "test"}' https://octodemo.com/api/v3/repos/${TRAVIS_REPO_SLUG}/deployments | jq '.id')
+deployment_id=$(curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"ref": '${ref}',"description": "Deploying branch to test", "environment": "test"}' https://octodemo.com/api/v3/repos/${TRAVIS_REPO_SLUG}/deployments | jq '.id')
 
 echo "Deployment ID: $deployment_id"
 
