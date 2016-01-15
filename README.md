@@ -37,8 +37,7 @@ The application is loosely based on the Heroku tutorial [Create a Java Web Appli
 │   │   │               ├── service
 │   │   │               │   └── BookService.java
 │   │   │               └── servlet
-│   │   │                   ├── BookServlet.java
-│   │   │                   └── ListenerServlet.java
+│   │   │                   └── BookServlet.java
 │   │   └── webapp
 │   │       ├── books.html
 │   │       ├── books_de.properties
