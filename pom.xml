@@ -12,6 +12,8 @@
         <tomcat.version>8.0.28</tomcat.version>
         <github.global.host>https://octodemo.com/api/v3</github.global.host>
         <github.global.oauth2Token>${env.TOKEN}</github.global.oauth2Token>
+        <checkstyle.version>6.14.1</checkstyle.version>
+        <maven.checkstyle.plugin.version>2.17</maven.checkstyle.plugin.version>
     </properties>
     <dependencies>
         <dependency>
@@ -71,6 +73,39 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven.checkstyle.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>verify-style</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <checkstyleRules>
+                        <module name="Checker">
+                            <module name="TreeWalker">
+                                <module name="MethodName">
+                                    <property name="format" value="^[a-z](_?[a-zA-Z0-9]+)*$"/>
+                                </module>
+                            </module>
+                        </module>
+                    </checkstyleRules>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>com.github.github</groupId>
                 <artifactId>site-maven-plugin</artifactId>
                 <version>0.12</version>
@@ -110,6 +145,9 @@
                         </reports>
                     </reportSet>
                 </reportSets>
+                <configuration>
+                    <configLocation>google_checks.xml</configLocation>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>
