@@ -11,7 +11,7 @@ STATE="pending"
 
 statuses
 
-mvn test -DskipTests=true
+mvn verify -DskipTests=true
 STATUS=$?
 echo "$STATUS"
 if [ $STATUS -eq 0 ]; then
