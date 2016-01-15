@@ -15,7 +15,7 @@ if [ "$1" = "verify" ]; then
   else
     statuses "failure" "Java code does not meeting coding standards" "$1"
   fi
-else [ "$1" = "site" ]; then
+elif [ "$1" = "site" ]; then
   statuses "pending" "Generating Maven project site" "$1"
   mvn clean site
   STATUS=$?
