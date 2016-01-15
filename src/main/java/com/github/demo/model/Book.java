@@ -26,7 +26,7 @@ public class Book {
         this.title = title;
     }
     
-    public String GetDetails() {
+    public String getDetails() {
         return author + " " + title;
     }
 
