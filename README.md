@@ -14,7 +14,7 @@ The [reading-time-app](https://reading-time-app.herokuapp.com/) is a demo web ap
 The application is loosely based on the Heroku tutorial [Create a Java Web Application Using Embedded Tomcat](https://devcenter.heroku.com/articles/create-a-java-web-application-using-embedded-tomcat). It uses an embedded Tomcat servlet container. The project is structured as a standard Java Maven application:
 
 ```
-.
+'.
 ├── CONTRIBUTING.md
 ├── Procfile
 ├── README.md
@@ -24,36 +24,36 @@ The application is loosely based on the Heroku tutorial [Create a Java Web Appli
 │   ├── deploy-cli.sh
 │   ├── deploy.sh
 │   └── status-checks.sh
-├── src
-│   ├── main
-│   │   ├── java
-│   │   │   └── com
-│   │   │       └── github
-│   │   │           └── demo
-│   │   │               ├── launch
-│   │   │               │   └── Main.java
-│   │   │               ├── model
-│   │   │               │   └── Book.java
-│   │   │               ├── service
-│   │   │               │   └── BookService.java
-│   │   │               └── servlet
-│   │   │                   └── BookServlet.java
-│   │   └── webapp
-│   │       ├── books.html
-│   │       ├── books_de.properties
-│   │       ├── books_en.properties
-│   │       ├── books_fr.properties
-│   │       └── books_nl.properties
-│   └── test
-│       └── java
-│           └── com
-│               └── github
-│                   └── demo
-│                       ├── model
-│                       │   └── BookTest.java
-│                       └── service
-│                           └── BookServiceTest.java
-
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── github
+    │   │           └── demo
+    │   │               ├── launch
+    │   │               │   └── Main.java
+    │   │               ├── model
+    │   │               │   └── Book.java
+    │   │               ├── service
+    │   │               │   └── BookService.java
+    │   │               └── servlet
+    │   │                   └── BookServlet.java
+    │   └── webapp
+    │       ├── books.html
+    │       ├── books_de.properties
+    │       ├── books_en.properties
+    │       ├── books_fr.properties
+    │       └── books_nl.properties
+    └── test
+        └── java
+            └── com
+                └── github
+                    └── demo
+                        ├── model
+                        │   └── BookTest.java
+                        └── service
+                            └── BookServiceTest.java
+                            
 ```
 This code might look a bit complex for what it does, but Java developers love patterns as much as Rails developers love convention over configuration, so it follows the [Model-view-controller (MVC)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) pattern. But no worries! The only class you need to edit in the demo is the [BookService.java](src/main/java/com/github/demo/service/BookService.java) class. :smile:
 
