@@ -1,3 +1,7 @@
+function statuses () {
+  curl -s -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"state": "'"$1"'","target_url": "https://reading-time-app.herokuapp.com/","description": "'"$2"'"}' https://octodemo.com/api/v3/repos/office-tools/reading-time-app/deployments/$deployment_id/statuses
+}
+
 : ${GITHUB_TOKEN?"Please set environment variable GITHUB_TOKEN to the GitHub access token"}
 
 echo -e "Hi, please type the name of the branch: \c "
@@ -14,8 +18,8 @@ then
   exit 1
 fi
 
-curl -s -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"state": "pending","target_url": "https://reading-time-app.herokuapp.com/","description": "Pending deployment to test"}' https://octodemo.com/api/v3/repos/office-tools/reading-time-app/deployments/$deployment_id/statuses
+statuses "pending" "Pending deployment to test"
 
 sleep 10
 
-curl -s -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"state": "success","target_url": "https://reading-time-app.herokuapp.com/","description": "Successful deployment to test"}' https://octodemo.com/api/v3/repos/office-tools/reading-time-app/deployments/$deployment_id/statuses
+statuses "success" "Successful deployment to test"
