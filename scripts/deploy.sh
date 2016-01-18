@@ -2,6 +2,9 @@ echo "Repository: $TRAVIS_REPO_SLUG"
 echo "Token: $TOKEN"
 echo "PR: $TRAVIS_PULL_REQUEST"
 
+function statuses () {
+  curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"state": "'"$1"'","target_url": "https://reading-time-app.herokuapp.com/","description": "'"$2"'"}' https://octodemo.com/api/v3/repos/${TRAVIS_REPO_SLUG}/deployments/$deployment_id/statuses
+}
 
 ref=$(curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" https://octodemo.com/api/v3/repos/${TRAVIS_REPO_SLUG}/pulls/${TRAVIS_PULL_REQUEST} | jq '.head.ref')
 
@@ -17,8 +20,8 @@ then
   exit 1
 fi
 
-curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"state": "pending","target_url": "https://reading-time-app.herokuapp.com/","description": "Pending deployment to test"}' https://octodemo.com/api/v3/repos/${TRAVIS_REPO_SLUG}/deployments/$deployment_id/statuses
+#statuses "pending" "Pending deployment to test"
 
-sleep 10
+#sleep 10
 
-curl -s -H "Authorization: Token $TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"state": "success","target_url": "https://reading-time-app.herokuapp.com/","description": "Successful deployment to test"}' https://octodemo.com/api/v3/repos/${TRAVIS_REPO_SLUG}/deployments/$deployment_id/statuses
+#statuses "success" "Successfully deployment to test"
