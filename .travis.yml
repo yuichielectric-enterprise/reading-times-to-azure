@@ -10,6 +10,7 @@ script:
   - ./scripts/status-checks.sh install
   - ./scripts/status-checks.sh test
 after_success:
+  - ./scripts/status-checks.sh site
   - ./scripts/deploy.sh
 env:
   global:
