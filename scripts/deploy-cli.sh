@@ -14,7 +14,7 @@ echo "Deployment ID: $deployment_id"
 
 if (($deployment_id == null))
 then
-  echo "Create deployment failed, please check the branch name: ${branch}"
+  echo "Create deployment failed, please check the branch name '${branch}' and if the last build passed"
   exit 1
 fi
 
