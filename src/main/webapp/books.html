@@ -17,6 +17,10 @@
     <body>
         <div class="header">
             <span th:text="#{books.title}"></span>
+            <form method="post">
+                <input type="text" name="q" placeholder="Search..." required>
+                <input type="button" value="Search">
+            </form>
         </div>
         <div class="body">
             <p th:text="#{books.intro}"></p>
