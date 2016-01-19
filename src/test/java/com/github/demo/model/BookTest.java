@@ -19,6 +19,13 @@ public class BookTest {
     }
 
     @Test
+    public void testConstructorWithAuthorAndTitle() {
+        Book book = new Book("Kurt Vonnegut","Slapstick");
+        Assert.assertEquals("Kurt Vonnegut",book.getAuthor());
+        Assert.assertEquals("Slapstick",book.getTitle());
+    }
+
+    @Test
     public void testGetTitle() {
         String title = book.getTitle();
         Assert.assertEquals("Slapstick",title);
