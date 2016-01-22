@@ -15,7 +15,7 @@ if [ "$1" = "verify" ]; then
   else
     statuses "failure" "Java code doesn't meet coding standards" "$1"
   fi
-elif [ "$1" = "intall" ]; then
+elif [ "$1" = "install" ]; then
   statuses "pending" "Running build" "$1"
   mvn install -DskipTests=true -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -B -V
   STATUS=$?
