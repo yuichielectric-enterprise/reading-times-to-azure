@@ -12,7 +12,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import javax.servlet.ServletException;
@@ -60,17 +59,6 @@ public class BookServletTest {
         driver.get(URL);
         List books = driver.findElements(By.xpath(BOOKS_XPATH));
         Assert.assertEquals(5, books.size());
-    }
-
-    @Test
-    public void testSearchForm() throws InterruptedException {
-        driver.get(URL);
-        WebElement element = driver.findElement(By.name("q"));
-        element.sendKeys("Vonnegut");
-        element.submit();
-
-        List books = driver.findElements(By.xpath(BOOKS_XPATH));
-        Assert.assertEquals(1, books.size());
     }
 
     @AfterClass

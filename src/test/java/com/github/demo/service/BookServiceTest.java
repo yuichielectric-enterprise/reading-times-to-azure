@@ -22,12 +22,6 @@ public class BookServiceTest {
         assertEquals("list length must be 5", 5, books.size());
     }
 
-    @Test
-    public void testGetBooksWithQueryString() {
-        List result = bookService.getBooks("vonnegut");
-        assertEquals(1, result.size());
-    }
-
     @Before
     public void setUp() throws Exception{
         bookService = new BookService();

@@ -22,14 +22,4 @@ public class BookService {
         return books;
     }
 
-    public List<Book> getBooks(String query) {
-        String queryString = query.toLowerCase();
-        List<Book> results = new ArrayList<Book>();
-        for(Book book : books){
-            if((book.getAuthor() != null && book.getAuthor().toLowerCase().contains(queryString)) ||
-                    (book.getTitle() != null && book.getTitle().toLowerCase().contains(queryString)))
-                results.add(book);
-        }
-        return results;
-    }
 }

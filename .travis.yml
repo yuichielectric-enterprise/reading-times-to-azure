@@ -7,9 +7,10 @@ cache:
 before_install:
   - ./scripts/status-checks.sh verify
 script:
-  - ./scripts/status-checks.sh install
+  -   mvn install -DskipTests=true -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -B -V
   - ./scripts/status-checks.sh test
 after_success:
+  - ./scripts/status-checks.sh site
   - ./scripts/deploy.sh
 env:
   global:

@@ -33,13 +33,7 @@ public class BookServlet extends HttpServlet {
             throws ServletException, IOException {
 
         BookService service = new BookService();
-        List books = null;
-
-        if (req.getParameter("q") != null) {
-            books = service.getBooks(req.getParameter("q"));
-        } else {
-            books = service.getBooks();
-        }
+        List books = service.getBooks();
 
         ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
         resolver.setSuffix(".html");
