@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
     <head>
+        <title th:text="#{books.title}"></title>
         <style>
             div.header {
                 border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -19,7 +20,7 @@
             <span th:text="#{books.title}"></span>
             <form method="post">
                 <input type="text" name="q" placeholder="Search books..." required="true" />
-                <input type="button" value="Search" />
+                <input type="submit" value="Search" />
             </form>
         </div>
         <div class="body">

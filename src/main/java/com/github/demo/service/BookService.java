@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BookService {
 
-    private static List<Book> books = new ArrayList<Book>(5);;
+    private static List<Book> books = new ArrayList<Book>(5);
 
     static {
         books.add(new Book("Philip K. Dick","The Three Stigmata of Palmer Eldritch"));
@@ -23,10 +23,11 @@ public class BookService {
     }
 
     public List<Book> getBooks(String query) {
+        String queryString = query.toLowerCase();
         List<Book> results = new ArrayList<Book>();
         for(Book book : books){
-            if((book.getAuthor() != null && book.getAuthor().toLowerCase().contains(query.toLowerCase())) ||
-                    (book.getTitle() != null && book.getTitle().toLowerCase().contains(query.toLowerCase())))
+            if((book.getAuthor() != null && book.getAuthor().toLowerCase().contains(queryString)) ||
+                    (book.getTitle() != null && book.getTitle().toLowerCase().contains(queryString)))
                 results.add(book);
         }
         return results;
