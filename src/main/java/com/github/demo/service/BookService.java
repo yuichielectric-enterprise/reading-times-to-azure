@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BookService {
 
-    private static List<Book> books = new ArrayList<Book>(5);;
+    private static List<Book> books = new ArrayList<Book>(5);
 
     static {
         books.add(new Book("Philip K. Dick","The Three Stigmata of Palmer Eldritch"));
@@ -21,4 +21,5 @@ public class BookService {
     public List<Book> getBooks() {
         return books;
     }
+
 }
