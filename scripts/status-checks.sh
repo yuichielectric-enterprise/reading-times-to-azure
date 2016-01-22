@@ -15,6 +15,16 @@ if [ "$1" = "verify" ]; then
   else
     statuses "failure" "Java code doesn't meet coding standards" "$1"
   fi
+elif [ "$1" = "intall" ]; then
+  statuses "pending" "Running build" "$1"
+  mvn install -DskipTests=true -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -B -V
+  STATUS=$?
+  echo "$STATUS"
+  if [ $STATUS -eq 0 ]; then
+    statuses "success" "Build succesful" "$1"
+  else
+    statuses "failure" "Build failed" "$1"
+  fi
 elif [ "$1" = "test" ]; then
   statuses "pending" "Running tests" "$1"
   mvn test -B -Dcheckstyle.skip=true
