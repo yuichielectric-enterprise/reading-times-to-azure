@@ -53,7 +53,7 @@ The application is loosely based on the Heroku tutorial [Create a Java Web Appli
                         │   └── BookTest.java
                         └── service
                             └── BookServiceTest.java
-                            
+
 ```
 This code might look a bit complex for what it does, but Java developers love patterns as much as Rails developers love convention over configuration, so it follows the [Model-view-controller (MVC)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) pattern. But no worries! The only class you need to edit in the demo is the [BookService.java](src/main/java/com/github/demo/service/BookService.java) class. :smile:
 

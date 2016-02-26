@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import javax.servlet.ServletException;
@@ -52,6 +53,13 @@ public class BookServletTest {
     public void testHeadTitle() {
         driver.get(URL);
         Assert.assertEquals("It's time to read!", driver.getTitle());
+    }
+
+    @Test
+    public void testBodyTitle() {
+        driver.get(URL);
+        WebElement element = driver.findElement(By.xpath("//body/div/span"));
+        Assert.assertEquals("It's time to read!", element.getText());
     }
 
     @Test
