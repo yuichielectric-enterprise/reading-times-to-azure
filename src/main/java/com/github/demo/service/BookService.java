@@ -10,12 +10,12 @@ public class BookService {
     private static List<Book> books = new ArrayList<Book>(5);
 
     static {
-        books.add(new Book("Philip K. Dick","The Three Stigmata of Palmer Eldritch"));
-        books.add(new Book("Kurt Vonnegut","Galápagos"));
-        books.add(new Book("Michel Faber","The Book Of Strange New Things"));
-        books.add(new Book("Julian Barnes","A History of the World in 10½ Chapters"));
-        books.add(new Book("Yuval Noah Harari", "Sapiens: A Brief History of Humankind"));
-        //books.add(new Book("Douglas Adams","The Hitchhiker's Guide to the Galaxy"));
+        books.add(new Book("Jeff Sutherland","Scrum: The Art of Doing Twice the Work in Half the Time"));
+        books.add(new Book("Eric Ries","The Lean Startup: How Constant Innovation Creates Radically Successful Businesses"));
+        books.add(new Book("Geoffrey A. Moore","Crossing the Chasm"));
+        books.add(new Book("David Thomas","The Pragmatic Programmer: From Journeyman to Master"));
+        books.add(new Book("Frederick P. Brooks Jr.", "The Mythical Man-Month: Essays on Software Engineering"));
+        //books.add(new Book("Steve Krug","Don't Make Me Think, Revisited: A Common Sense Approach to Web Usability"));
     }
 
     public List<Book> getBooks() {
