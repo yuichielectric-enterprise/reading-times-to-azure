@@ -124,5 +124,8 @@ The Heroku configuration is in [Procfile](Procfile). It specifies the process to
 web: sh target/bin/webapp
 ```
 
+## Review Ninja
+https://office-tools-reviewninja.herokuapp.com/
+
 ## Contributing
 Read [How to contribute](CONTRIBUTING.md) how to contribute to the `reading-time-app`.
