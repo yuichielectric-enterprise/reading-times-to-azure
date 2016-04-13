@@ -14,6 +14,7 @@ if [ "$1" = "verify" ]; then
     statuses "success" "Java code meets coding standards" "$1"
   else
     statuses "failure" "Java code doesn't meet coding standards" "$1"
+    exit 1
   fi
 elif [ "$1" = "install" ]; then
   statuses "pending" "Running build" "$1"
@@ -24,6 +25,7 @@ elif [ "$1" = "install" ]; then
     statuses "success" "Build succesful" "$1"
   else
     statuses "failure" "Build failed" "$1"
+    exit 1
   fi
 elif [ "$1" = "test" ]; then
   statuses "pending" "Running tests" "$1"
@@ -34,6 +36,7 @@ elif [ "$1" = "test" ]; then
     statuses "success" "All tests passed" "$1"
   else
     statuses "failure" "One or more tests failed" "$1"
+    exit 1
   fi
 elif [ "$1" = "site" ]; then
   statuses "pending" "Generating Maven project site" "$1"
