@@ -17,7 +17,7 @@ import java.util.List;
 
 @WebServlet(
         name = "BookServlet",
-        urlPatterns = {"/"}
+        urlPatterns = {""}
 )
 @WebInitParam(name = "allowedTypes", value = "html")
 public class BookServlet extends HttpServlet {
@@ -45,6 +45,7 @@ public class BookServlet extends HttpServlet {
         ctx.setVariable("modified", Calendar.getInstance());
         ctx.setVariable("books", books);
         engine.process("books", ctx, resp.getWriter());
+
     }
 
 }

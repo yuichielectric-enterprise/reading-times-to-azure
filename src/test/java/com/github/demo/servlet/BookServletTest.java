@@ -25,7 +25,7 @@ public class BookServletTest {
 
     private static final String URL = "http://localhost:" + TOMCAT_PORT;
 
-    private static final String BOOKS_XPATH = "//div[@class='body']/div/p";
+    private static final String BOOKS_XPATH = "//body/div/div/p";
 
     private static Tomcat tomcat;
 
@@ -58,7 +58,7 @@ public class BookServletTest {
     @Test
     public void testBodyTitle() {
         driver.get(URL);
-        WebElement element = driver.findElement(By.xpath("//body/div/span"));
+        WebElement element = driver.findElement(By.xpath("//body/div/div/h1"));
         Assert.assertEquals("It's time to read!", element.getText());
     }
 
