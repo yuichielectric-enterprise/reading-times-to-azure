@@ -9,6 +9,8 @@ public class Book {
 
     private String author;
 
+    private String cover;
+
     public Book() {
 
     }
@@ -16,6 +18,12 @@ public class Book {
     public Book(String author, String title) {
         this.author = author;
         this.title = title;
+    }
+
+    public Book(String author, String title, String cover) {
+        this.author = author;
+        this.title = title;
+        this.cover = cover;
     }
 
     public String getTitle() {
@@ -38,4 +46,11 @@ public class Book {
         return author + " " + title;
     }
 
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
 }
