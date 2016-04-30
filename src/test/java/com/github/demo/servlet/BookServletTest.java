@@ -12,7 +12,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import javax.servlet.ServletException;
@@ -25,7 +24,7 @@ public class BookServletTest {
 
     private static final String URL = "http://localhost:" + TOMCAT_PORT;
 
-    private static final String BOOKS_XPATH = "//body/div/div/p";
+    private static final String BOOKS_XPATH = "//td/div/div/h4";
 
     private static Tomcat tomcat;
 
@@ -56,17 +55,10 @@ public class BookServletTest {
     }
 
     @Test
-    public void testBodyTitle() {
-        driver.get(URL);
-        WebElement element = driver.findElement(By.xpath("//body/div/div/h1"));
-        Assert.assertEquals("It's time to read!", element.getText());
-    }
-
-    @Test
     public void testBookListSize() {
         driver.get(URL);
         List books = driver.findElements(By.xpath(BOOKS_XPATH));
-        Assert.assertEquals(5, books.size());
+        Assert.assertEquals(4, books.size());
     }
 
     @AfterClass
