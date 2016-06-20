@@ -38,6 +38,16 @@ elif [ "$1" = "test" ]; then
     statuses "failure" "One or more tests failed" "$1"
     exit 1
   fi
+elif [ "$1" = "coverage" ]; then
+  statuses "pending" "Running coverage check" "$1"
+  mvn clean site
+  STATUS=$?
+  echo "$STATUS"
+  if [ $STATUS -eq 0 ]; then
+    statuses "success" "Coverage check passed" "$1"
+  else
+    statuses "failure" "Coverage check failed" "$1"
+  fi
 elif [ "$1" = "site" ]; then
   statuses "pending" "Generating Maven project site" "$1"
   mvn clean site

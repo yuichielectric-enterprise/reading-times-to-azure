@@ -9,6 +9,7 @@ before_install:
 script:
   - ./scripts/status-checks.sh install
   - ./scripts/status-checks.sh test
+  - ./scripts/status-checks.sh coverage
 after_success:
 #  - ./scripts/status-checks.sh site
   - ./scripts/deploy.sh
