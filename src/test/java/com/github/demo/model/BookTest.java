@@ -25,12 +25,6 @@ public class BookTest {
         Assert.assertEquals("Slapstick",book.getTitle());
     }
 
-    @Test
-    public void testGetTitle() {
-        String title = book.getTitle();
-        Assert.assertEquals("Slapstick",title);
-    }
-
     @Before
     public void setUp() throws Exception {
         book = new Book();
