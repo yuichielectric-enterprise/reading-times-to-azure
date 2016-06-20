@@ -26,7 +26,7 @@ public class Book {
         this.author = author;
         this.title = title;
         this.cover = cover;
-        this.rating = rating;
+        this.setRating(rating);
     }
 
     public String getTitle() {
@@ -62,6 +62,10 @@ public class Book {
     }
 
     public void setRating(int rating) {
+
+        if (rating < 0 || rating > 5)
+            throw new RuntimeException("Value for rating shall be a number between 0 and 5");
+
         this.rating = rating;
     }
 }
