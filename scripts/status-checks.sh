@@ -17,36 +17,36 @@ if [ "$1" = "verify" ]; then
     exit 1
   fi
 elif [ "$1" = "install" ]; then
-  statuses "pending" "Running build" "$1"
+  statuses "pending" "Running build and install" "$1"
   mvn install -DskipTests=true -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true -B -V
   STATUS=$?
   echo "$STATUS"
   if [ $STATUS -eq 0 ]; then
-    statuses "success" "Build succesful" "$1"
+    statuses "success" "Build and install succesful" "$1"
   else
-    statuses "failure" "Build failed" "$1"
+    statuses "failure" "Build and install failed" "$1"
     exit 1
   fi
 elif [ "$1" = "test" ]; then
-  statuses "pending" "Running tests" "$1"
+  statuses "pending" "Running unit tests" "$1"
   mvn test -B -Dcheckstyle.skip=true
   STATUS=$?
   echo "$STATUS"
   if [ $STATUS -eq 0 ]; then
-    statuses "success" "All tests passed" "$1"
+    statuses "success" "All unit tests passed" "$1"
   else
-    statuses "failure" "One or more tests failed" "$1"
+    statuses "failure" "One or more unit tests failed" "$1"
     exit 1
   fi
 elif [ "$1" = "coverage" ]; then
-  statuses "pending" "Running coverage check" "$1"
+  statuses "pending" "Running coverage checks" "$1"
   mvn cobertura:check
   STATUS=$?
   echo "$STATUS"
   if [ $STATUS -eq 0 ]; then
-    statuses "success" "Coverage check passed" "$1"
+    statuses "success" "Coverage check is 90% or higher" "$1"
   else
-    statuses "failure" "Coverage check failed" "$1"
+    statuses "failure" "Coverage check failed to reach 90%" "$1"
     exit 1
   fi
 elif [ "$1" = "site" ]; then
