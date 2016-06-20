@@ -47,6 +47,7 @@ elif [ "$1" = "coverage" ]; then
     statuses "success" "Coverage check passed" "$1"
   else
     statuses "failure" "Coverage check failed" "$1"
+    exit 1
   fi
 elif [ "$1" = "site" ]; then
   statuses "pending" "Generating Maven project site" "$1"
