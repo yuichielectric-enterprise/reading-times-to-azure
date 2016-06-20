@@ -26,9 +26,15 @@ public class BookTest {
     }
 
     @Test
-    public void testGetTitle() {
-        String title = book.getTitle();
-        Assert.assertEquals("Slapstick",title);
+    public void testGetCover() {
+        book.setCover("slapstick.jpg");
+        Assert.assertEquals("slapstick.jpg", book.getCover());
+    }
+
+    @Test
+    public void testGetDetails() {
+        String details = book.getDetails();
+        Assert.assertNotNull(book.getDetails());
     }
 
     @Before
