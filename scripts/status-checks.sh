@@ -40,7 +40,7 @@ elif [ "$1" = "test" ]; then
   fi
 elif [ "$1" = "coverage" ]; then
   statuses "pending" "Running coverage check" "$1"
-  mvn clean site
+  mvn coberura:check
   STATUS=$?
   echo "$STATUS"
   if [ $STATUS -eq 0 ]; then
