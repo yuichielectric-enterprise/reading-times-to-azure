@@ -16,7 +16,6 @@ else
     git commit -m "Added rating model and service"
     cp -rf $DIR/resources/main/webapp/* $DIR/../src/main/webapp/
     git add src/main/webapp/
-    echo "Adding commit "
     git commit -m "Added rating view"
     git push origin HEAD
   fi
