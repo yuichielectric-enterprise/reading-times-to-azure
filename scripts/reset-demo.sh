@@ -14,9 +14,10 @@ echo "Re-setting Demo"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Reverting master to baseline tag"
-git fetch && git push origin baseline:master -f
+git fetch --tags
 git checkout master
 git reset --hard baseline
+git push origin baseline:master -f
 
 
 function close_issue () {
