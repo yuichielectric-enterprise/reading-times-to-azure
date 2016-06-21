@@ -7,16 +7,17 @@ then
   echo "  For example: git checkout -b add-rating-feature"
   exit 1
 else
-  echo -e "Do you want to commit the code changes on branch '$BRANCH'?"
-  echo -n "Press ENTER to continue"
-  read
-  cp -rf $DIR/resources/main/java/* $DIR/../src/main/java/
-  git add src/main/java/
-  git commit -m "Added rating model and service"
-  cp -rf $DIR/resources/main/webapp/* $DIR/../src/main/webapp/
-  git add src/main/webapp/
-  echo "Adding commit "
-  git commit -m "Added rating view"
-  git push origin HEAD
+  read -p  "Do you want to commit the code changes on branch '$BRANCH' (y/N)?" -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    cp -rf $DIR/resources/main/java/* $DIR/../src/main/java/
+    git add src/main/java/
+    git commit -m "Added rating model and service"
+    cp -rf $DIR/resources/main/webapp/* $DIR/../src/main/webapp/
+    git add src/main/webapp/
+    echo "Adding commit "
+    git commit -m "Added rating view"
+    git push origin HEAD
+  fi
 fi
-
