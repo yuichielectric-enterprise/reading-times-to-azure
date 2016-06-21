@@ -7,7 +7,7 @@ then
   echo "  For example: git checkout -b add-rating-feature"
   exit 1
 else
-  cp -rf $DIR/resources/* $DIR/../src/
+  cp -rf $DIR/resources/main/* $DIR/../src/main/
   read -p  "Do you want to commit the code changes on branch '$BRANCH' (y/N)?" -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]
