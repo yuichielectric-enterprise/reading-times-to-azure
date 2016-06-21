@@ -37,6 +37,16 @@ public class BookTest {
         Assert.assertNotNull(book.getDetails());
     }
 
+    @Test(expected = RuntimeException.class)
+    public void testSetInvalidRating() {
+        book.setRating(6);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testSetNegativeRating() {
+        book.setRating(-1);
+    }
+    
     @Before
     public void setUp() throws Exception {
         book = new Book();
