@@ -13,6 +13,12 @@ echo "Re-setting Demo"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+echo "Reverting master to baseline tag"
+git fetch && git push origin baseline:master -f
+git checkout master
+git reset --hard baseline
+
+
 function close_issue () {
   curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PATCH -d '{"state": "closed"}' https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/issues/$1
 }
@@ -24,6 +30,9 @@ do
   echo "Closing issue with number: $issue_number"
   close_issue $issue_number
 done
+
+
+echo "Opening template issue"
 
 BODY1=`cat $DIR/issues/message1.md`
 echo $BODY1
