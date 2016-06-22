@@ -14,7 +14,6 @@ if [ "$1" = "verify" ]; then
     statuses "success" "Java code meets coding standards" "$1"
   else
     statuses "failure" "Java code doesn't meet coding standards" "$1"
-    exit 1
   fi
 elif [ "$1" = "install" ]; then
   statuses "pending" "Running build and install" "$1"
@@ -47,7 +46,6 @@ elif [ "$1" = "coverage" ]; then
     statuses "success" "Coverage check is 90% or higher" "$1"
   else
     statuses "failure" "Coverage check failed to reach 90%" "$1"
-    exit 1
   fi
 elif [ "$1" = "site" ]; then
   statuses "pending" "Generating Maven project site" "$1"
