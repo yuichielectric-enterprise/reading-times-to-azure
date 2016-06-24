@@ -11,7 +11,7 @@ public class Book {
 
     private String cover;
 
-    private int rating;
+    private long rating;
 
     public Book() {
 
