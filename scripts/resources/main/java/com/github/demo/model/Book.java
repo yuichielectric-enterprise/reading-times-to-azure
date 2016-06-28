@@ -57,11 +57,11 @@ public class Book {
         this.cover = cover;
     }
 
-    public int getRating() {
+    public long getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(long rating) {
 
         if (rating < 0 || rating > 5)
             throw new RuntimeException("Value for rating shall be a number between 0 and 5");
