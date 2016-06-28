@@ -1,5 +1,5 @@
-# reading-time-app
-The [reading-time-app](https://reading-time-app.herokuapp.com/) is a demo web application using Java and [Maven](https://maven.apache.org/). It lists staff recommended books. The repository allows you to demonstrate GitHub with the following features:
+# reading-time-demo
+The [reading-time-demo](https://reading-time-demo.herokuapp.com/) is a demo web application using Java and [Maven](https://maven.apache.org/). It lists staff recommended books. The repository allows you to demonstrate GitHub with the following features:
 
 - Demonstrate GitHub Flow by implementing a real feature with the ability to break the build due to lack of coverage and to fix it by adding unit tests.
 - As an alternative demonstrate GitHub Flow by making a simple change like changing the background color of the footer or updating the book list.
