@@ -18,8 +18,13 @@ cp $DIR/templates/.travis.yml $DIR/..
 travis encrypt TOKEN=$GITHUB_TOKEN --add  -e https://travis.octodemo.com/api --debug
 git commit -am "Adding my travis token after demo update"
 
+# Disabling protected branches otherwise force push fails (when available in Enterprise)
+# curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/vnd.github.loki-preview+json" -H "Content-type: application/json" -X DELETE https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection
+
 # Updating master and our baseline to revert to later on
 git push origin master:baseline -f
 git push origin master -f
 
 bash ./scripts/reset-demo.sh
+
+
