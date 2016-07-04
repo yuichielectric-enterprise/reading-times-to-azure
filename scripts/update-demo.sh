@@ -3,6 +3,8 @@
 # Fail if no token
 : ${GITHUB_TOKEN?"Please set environment variable GITHUB_TOKEN to the GitHub access token"}
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Getting the original content
 git remote add baseline git@octodemo.com:baseline/reading-time-demo.git
 git fetch baseline
@@ -12,7 +14,7 @@ git checkout master
 git reset --hard baseline/master
 
 # Generating personal travis token
-cp templates/.travis.yml ../
+cp $DIR/templates/.travis.yml $DIR/..
 travis encrypt TOKEN=$GITHUB_TOKEN --add  -e https://travis.octodemo.com/api --debug
 git commit -am "Adding my travis token after demo update"
 
