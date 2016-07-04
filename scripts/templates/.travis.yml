@@ -1,0 +1,12 @@
+sudo: false
+language: java
+install: true
+cache:
+  directories:
+  - "$HOME/.m2"
+before_install:
+- "./scripts/status-checks.sh verify"
+script:
+- "./scripts/status-checks.sh test"
+- "./scripts/status-checks.sh coverage"
+after_success:
