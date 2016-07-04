@@ -1,4 +1,4 @@
 {
   "title": "Adding a rating feature to the book store",
-  "body": "Hi everyone,\nA lot of the users have said that there's no clear way to distinguish the quality of the books in our portal. I was thinking we should have a rating feature or something similar to that to allow users to quickly pick up most highest rated books from the other users.\n - [ ] Get UX to do a quick mock-up\n- [ ] If we decide to go ahead get the design done\n- [ ] Software Development\n- [ ] Testing and Review\n\nWould the UX team care to come up with a quick wireframe?"
+  "body": "Hi everyone,\n\nA lot of the users have said that there's no clear way to distinguish the quality of the books in our portal. I was thinking we should have a rating feature or something similar to that to allow users to quickly pick up most highest rated books from the other users.\n - [ ] Get UX to do a quick mock-up\n- [ ] If we decide to go ahead get the design done\n- [ ] Software Development\n- [ ] Testing and Review\n\nWould the UX team care to come up with a quick wireframe?"
 }
