@@ -47,3 +47,5 @@ curl -H "Authorization: Token $RT_PM_TOKEN" -H "Accept: application/json" -H "Co
 curl -H "Authorization: Token $RT_DS_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d @$DIR/issues/message4.json https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/issues/$ISSUE_NUMBER/comments
 
 
+echo "Redeploying master to heroku"
+git push heroku master -f
