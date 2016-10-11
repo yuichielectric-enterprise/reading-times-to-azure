@@ -13,11 +13,17 @@ echo "Re-setting Demo"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Disabling protected branches otherwise force push fails (when available in Enterprise)
+curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/vnd.github.loki-preview+json" -H "Content-type: application/json" -X DELETE https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection
+
 echo "Reverting master to baseline tag"
 git fetch --tags
 git checkout master
 git reset --hard baseline
 git push origin baseline:master -f
+
+# Re-enabling protected branches / required status
+curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/vnd.github.loki-preview+json" -H "Content-type: application/json" -X PUT https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection -d @protected.json
 
 
 function close_issue () {

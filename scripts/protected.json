@@ -1,0 +1,13 @@
+{
+  "required_status_checks": {
+    "include_admins": true,
+    "strict": false,
+    "contexts": [
+      "VersionEye",
+      "continuous-integration/travis-ci",
+      "coverage-status-check/travis-ci",
+      "test-status-check/travis-ci"
+    ]
+  },
+  "restrictions": null
+}
