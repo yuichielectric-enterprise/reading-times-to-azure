@@ -2,11 +2,7 @@
   "required_status_checks": {
     "include_admins": true,
     "strict": false,
-    "contexts": [
-      "continuous-integration/travis-ci",
-      "coverage-status-check/travis-ci",
-      "test-status-check/travis-ci"
-    ]
+    "contexts": CONTEXTS_PLACEHOLDER
   },
   "restrictions": null
 }
