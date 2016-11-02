@@ -1,0 +1,8 @@
+{
+  "required_status_checks": {
+    "include_admins": true,
+    "strict": false,
+    "contexts": CONTEXTS_PLACEHOLDER
+  },
+  "restrictions": null
+}
