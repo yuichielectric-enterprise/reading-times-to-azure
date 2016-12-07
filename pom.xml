@@ -231,7 +231,7 @@
     <description>A Java example project to demonstrate a Java development stack with Maven, Travis CI and Heroku deployments.</description>
     <ciManagement>
         <system>Travis CI</system>
-        <url>https://travis.octodemo.com/office-tools/reading-time-app</url>
+        <url>https://travisci.octodemoapps.com/office-tools/reading-time-app</url>
     </ciManagement>
     <issueManagement>
         <url>https://octodemo.com/office-tools/reading-time-app/issues</url>
