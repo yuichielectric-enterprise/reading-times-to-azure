@@ -15,7 +15,7 @@ git reset --hard baseline/master
 
 # Generating personal travis token
 cp $DIR/templates/.travis.yml $DIR/..
-travis encrypt TOKEN=$GITHUB_TOKEN --add  -e https://travis.octodemo.com/api --debug
+travis encrypt TOKEN=$GITHUB_TOKEN --add  -e https://travisci.octodemoapps.com/api --debug
 git commit -am "Adding my travis token after demo update"
 
 # Disabling protected branches otherwise force push fails (when available in Enterprise)
