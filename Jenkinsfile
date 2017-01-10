@@ -8,7 +8,7 @@ HEROKU_PREVIEW=<your heroku preview app>
 HEROKU_PREPRODUCTION=<your heroku pre-production app>
 HEROKU_PRODUCTION=<your heroku production app>
 
-Please also add the following credentials:
+Please also add the following credentials to the global domain of your organization's folder:
 Heroku API key as secret text with ID 'HEROKU_API_KEY'
 GitHub Token value as secret text with ID 'GITHUB_TOKEN'
 */
