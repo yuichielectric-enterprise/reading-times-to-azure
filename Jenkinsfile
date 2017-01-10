@@ -20,7 +20,10 @@ node {
         checkout()
         build()
         unitTest()
-        preview()
+        // test whether this is a regular branch build or a merged PR build
+        if (!isPRMergeBuild()) {
+         preview()
+        }
     } // master branch / production
     else {
         checkout()
@@ -32,11 +35,17 @@ node {
     }
 }
 
+def isPRMergeBuild() {
+    return (env.BRANCH_NAME ==~ /^PR-\d+$/)
+}
+
 def checkout () {
     stage 'Checkout code'
-    setBuildStatus ('continuous-integration/jenkins/checkout', 'Checking out...', 'PENDING')
+    context="continuous-integration/jenkins/"
+    context += isPRMergeBuild()?"branch/checkout":"pr-merge/checkout"
+    setBuildStatus ("${context}", 'Checking out...', 'PENDING')
     checkout scm
-    setBuildStatus ('continuous-integration/jenkins/checkout', 'Checking out completed', 'SUCCESS')
+    setBuildStatus ("${context}", 'Checking out completed', 'SUCCESS')
 }
 
 def build () {
