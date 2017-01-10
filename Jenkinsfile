@@ -70,7 +70,7 @@ def allTests() {
 def preview() {
     stage name: 'Deploy to Preview env', concurrency: 1
     def herokuApp = "${env.HEROKU_PREVIEW}"
-    def id = createDeployment(getBranch(), "test", "Deploying branch to test")
+    def id = createDeployment(getBranch(), "preview", "Deploying branch to test")
     echo "Deployment ID: ${id}"
     if (id != null) {
         setDeploymentStatus(id, "pending", "https://${herokuApp}.herokuapp.com/", "Pending deployment to test");
@@ -131,18 +131,18 @@ def getBranch() {
     return "${branch}"
 }
 
-def createDeployment(String ref, String environment, String description) {
+def createDeployment(ref, environment, description) {
     withCredentials([[$class: 'StringBinding', credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN']]) {
         def payload = JsonOutput.toJson(["ref": "${ref}", "description": "${description}", "environment": "${environment}", "required_contexts": []])
         def apiUrl = "https://octodemo.com/api/v3/repos/${getRepoSlug()}/deployments"
         def response = sh(returnStdout: true, script: "curl -s -H \"Authorization: Token ${env.GITHUB_TOKEN}\" -H \"Accept: application/json\" -H \"Content-type: application/json\" -X POST -d '${payload}' ${apiUrl}").trim()
         def jsonSlurper = new JsonSlurper()
         def data = jsonSlurper.parseText("${response}")
-        return "${data.id}"
+        return data.id
     }
 }
 
-void setDeploymentStatus(String deploymentId, String state, String targetUrl, String description) {
+void setDeploymentStatus(deploymentId, state, targetUrl, description) {
     withCredentials([[$class: 'StringBinding', credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN']]) {
         def payload = JsonOutput.toJson(["state": "${state}", "target_url": "${targetUrl}", "description": "${description}"])
         def apiUrl = "https://octodemo.com/api/v3/repos/${getRepoSlug()}/deployments/${deploymentId}/statuses"
@@ -150,7 +150,7 @@ void setDeploymentStatus(String deploymentId, String state, String targetUrl, St
     }
 }
 
-void setBuildStatus(String context, String message, String state) {
+void setBuildStatus(context, message, state) {
   step([
       $class: "GitHubCommitStatusSetter",
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
