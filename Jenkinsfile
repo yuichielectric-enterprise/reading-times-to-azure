@@ -24,12 +24,15 @@ node {
         if (!isPRMergeBuild()) {
          preview()
         }
+        allCodeQualityTests()
     } // master branch / production
     else {
         checkout()
         build()
         allTests()
+        preview()
         preProduction()
+        allCodeQualityTests()
         manualPromotion()
         production()
     }
@@ -74,6 +77,46 @@ def allTests() {
         // input "Unit tests are failing, proceed?"
         sh "exit 1"
     }
+}
+
+def allCodeQualityTests() {
+    stage 'Code Quality'
+    lintTest()
+    coverageTest()
+}
+
+def lintTest() {
+    context="continuous-integration/jenkins/linting"
+    setBuildStatus ("${context}", 'Checking code syntax rules', 'PENDING')
+    lintTestPass = true
+
+    try {
+
+        mvn 'verify -DskipTests=true'
+    } catch (err) {
+        setBuildStatus ("${context}", 'Checking code syntax rules', 'FAILURE')
+        lintTestPass = false
+
+    } finally {
+        if (lintTestPass) setBuildStatus ("${context}", 'Checking code syntax rules', 'SUCCESS')
+    }
+}
+
+def coverageTest() {
+    context="continuous-integration/jenkins/coverage"
+    setBuildStatus ("${context}", 'Checking code coverage levels', 'PENDING')
+
+    coverageTestStatus = true
+
+    try {
+        mvn 'cobertura:check'
+    } catch (err) {
+        setBuildStatus("${context}", 'Checking code coverage levels', 'FAILURE')
+        throw err
+    }
+
+    setBuildStatus ("${context}", 'Checking code coverage levels', 'SUCCESS')
+
 }
 
 def preview() {
