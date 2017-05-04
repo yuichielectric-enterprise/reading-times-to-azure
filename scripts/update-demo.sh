@@ -22,7 +22,7 @@ git commit -am "Adding my travis token after demo update"
 # curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/vnd.github.loki-preview+json" -H "Content-type: application/json" -X DELETE https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection
 
 # Updating master and our baseline to revert to later on
-git push origin master:baseline -f
+git push origin master:refs/tags/baseline -f
 git push origin master -f
 
 bash ./scripts/reset-demo.sh
