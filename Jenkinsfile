@@ -42,7 +42,7 @@ def isPRMergeBuild() {
 def checkout () {
     stage 'Checkout code'
     context="continuous-integration/jenkins/"
-    context += isPRMergeBuild()?"branch/checkout":"pr-merge/checkout"
+    context += isPRMergeBuild()?"pr-merge/checkout":"branch/checkout"
     checkout scm
     setBuildStatus ("${context}", 'Checking out completed', 'SUCCESS')
 }
