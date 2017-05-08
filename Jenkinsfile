@@ -23,13 +23,16 @@ node {
         // test whether this is a regular branch build or a merged PR build
         if (!isPRMergeBuild()) {
          preview()
+         allCodeQualityTests()
         }
     } // master branch / production
     else {
         checkout()
         build()
         allTests()
+        preview()
         preProduction()
+        allCodeQualityTests()
         manualPromotion()
         production()
     }
@@ -73,6 +76,44 @@ def allTests() {
         // input "Unit tests are failing, proceed?"
         sh "exit 1"
     }
+}
+
+def allCodeQualityTests() {
+    stage 'Code Quality'
+    lintTest()
+    coverageTest()
+}
+
+def lintTest() {
+    context="continuous-integration/jenkins/linting"
+    setBuildStatus ("${context}", 'Checking code conventions', 'PENDING')
+    lintTestPass = true
+
+    try {
+        mvn 'verify -DskipTests=true'
+    } catch (err) {
+        setBuildStatus ("${context}", 'Some code conventions are broken', 'FAILURE')
+        lintTestPass = false
+    } finally {
+        if (lintTestPass) setBuildStatus ("${context}", 'Code conventions OK', 'SUCCESS')
+    }
+}
+
+def coverageTest() {
+    context="continuous-integration/jenkins/coverage"
+    setBuildStatus ("${context}", 'Checking code coverage levels', 'PENDING')
+
+    coverageTestStatus = true
+
+    try {
+        mvn 'cobertura:check'
+    } catch (err) {
+        setBuildStatus("${context}", 'Code coverage below 90%', 'FAILURE')
+        throw err
+    }
+
+    setBuildStatus ("${context}", 'Code coverage above 90%', 'SUCCESS')
+
 }
 
 def preview() {
