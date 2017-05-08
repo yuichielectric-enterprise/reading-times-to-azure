@@ -65,9 +65,6 @@ done
 
 echo "Opening template issue"
 
-BODY1=`cat $DIR/issues/message1.md`
-echo $BODY1
-
 ISSUE_NUMBER=`curl -H "Authorization: Token $RT_PM_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d @$DIR/issues/message1.json https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/issues | jq .number`
 
 ECHO "Issue created. Number=$ISSUE_NUMBER"
