@@ -23,8 +23,8 @@ node {
         // test whether this is a regular branch build or a merged PR build
         if (!isPRMergeBuild()) {
          preview()
+         allCodeQualityTests()
         }
-        allCodeQualityTests()
     } // master branch / production
     else {
         checkout()
@@ -91,12 +91,10 @@ def lintTest() {
     lintTestPass = true
 
     try {
-
         mvn 'verify -DskipTests=true'
     } catch (err) {
         setBuildStatus ("${context}", 'Checking code syntax rules', 'FAILURE')
         lintTestPass = false
-
     } finally {
         if (lintTestPass) setBuildStatus ("${context}", 'Checking code syntax rules', 'SUCCESS')
     }
