@@ -31,8 +31,8 @@ node {
         build()
         allTests()
         preview()
-        preProduction()
         allCodeQualityTests()
+        preProduction()
         manualPromotion()
         production()
     }
