@@ -87,16 +87,16 @@ def allCodeQualityTests() {
 
 def lintTest() {
     context="continuous-integration/jenkins/linting"
-    setBuildStatus ("${context}", 'Checking code syntax rules', 'PENDING')
+    setBuildStatus ("${context}", 'Checking code conventions', 'PENDING')
     lintTestPass = true
 
     try {
         mvn 'verify -DskipTests=true'
     } catch (err) {
-        setBuildStatus ("${context}", 'Checking code syntax rules', 'FAILURE')
+        setBuildStatus ("${context}", 'Some code conventions are broken', 'FAILURE')
         lintTestPass = false
     } finally {
-        if (lintTestPass) setBuildStatus ("${context}", 'Checking code syntax rules', 'SUCCESS')
+        if (lintTestPass) setBuildStatus ("${context}", 'Code conventions OK', 'SUCCESS')
     }
 }
 
@@ -109,11 +109,11 @@ def coverageTest() {
     try {
         mvn 'cobertura:check'
     } catch (err) {
-        setBuildStatus("${context}", 'Checking code coverage levels', 'FAILURE')
+        setBuildStatus("${context}", 'Code coverage below 90%', 'FAILURE')
         throw err
     }
 
-    setBuildStatus ("${context}", 'Checking code coverage levels', 'SUCCESS')
+    setBuildStatus ("${context}", 'Code coverage above 90%', 'SUCCESS')
 
 }
 
