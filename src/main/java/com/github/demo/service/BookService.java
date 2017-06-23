@@ -19,6 +19,7 @@ public class BookService {
     }
 
     public List<Book> getBooks() {
+        String foo;
         return books;
     }
 
