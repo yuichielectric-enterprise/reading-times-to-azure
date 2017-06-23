@@ -15,6 +15,11 @@ GitHub Token value as secret text with ID 'GITHUB_TOKEN'
 
 // not sure if this will work
 node {
+    
+    // we need to set a newer JVM for Sonar
+    env.JAVA_HOME="${tool 'Java SE DK 8u131'}"
+    env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
+    
     // pull request or feature branch
     if  (env.BRANCH_NAME != 'master') {
         checkout()
@@ -22,8 +27,12 @@ node {
         unitTest()
         // test whether this is a regular branch build or a merged PR build
         if (!isPRMergeBuild()) {
-         preview()
-         allCodeQualityTests()
+            preview()
+            sonarServer()
+            allCodeQualityTests()
+        } else {
+            // Pull request
+            sonarPreview()
         }
     } // master branch / production
     else {
@@ -31,6 +40,7 @@ node {
         build()
         allTests()
         preview()
+        sonarServer()
         allCodeQualityTests()
         preProduction()
         manualPromotion()
@@ -41,6 +51,32 @@ node {
 def isPRMergeBuild() {
     return (env.BRANCH_NAME ==~ /^PR-\d+$/)
 }
+
+def sonarPreview() {
+    stage('SonarQube Preview') {
+        prNo = (env.BRANCH_NAME=~/^PR-(\d+)$/)[0][1]
+        mvn "org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true -Pcoverage-per-test"
+        withCredentials([[$class: 'StringBinding', credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN']]) {
+            githubToken=env.GITHUB_TOKEN
+            repoSlug=getRepoSlug()
+            withSonarQubeEnv('SonarQube Octodemoapps') {
+                mvn "-Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=${prNo} -Dsonar.github.oauth=${githubToken} -Dsonar.github.repository=${repoSlug} -Dsonar.github.endpoint=https://octodemo.com/api/v3/ org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
+            }
+        }
+    } 
+}
+    
+def sonarServer() {
+    stage('SonarQube Server') {
+        mvn "org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true -Pcoverage-per-test"
+        withSonarQubeEnv('SonarQube Octodemoapps') {
+            mvn "org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
+        }
+    }
+}
+    
+
+
 
 def checkout () {
     stage 'Checkout code'
