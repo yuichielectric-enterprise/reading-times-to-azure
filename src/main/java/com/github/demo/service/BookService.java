@@ -10,6 +10,7 @@ public class BookService {
     private static List<Book> books = new ArrayList<Book>(5);
 
     static {
+        //books.add(new Book("Uncle Bob","Clean Code - Don't leave commented out code", "pragmatic.jpg"));
         books.add(new Book("Jeff Sutherland","Scrum: The Art of Doing Twice the Work in Half the Time", "scrum.jpg"));
         books.add(new Book("Eric Ries","The Lean Startup: How Constant Innovation Creates Radically Successful Businesses", "lean.jpg"));
         books.add(new Book("Geoffrey A. Moore","Crossing the Chasm", "chasm.jpg"));
@@ -19,6 +20,7 @@ public class BookService {
     }
 
     public List<Book> getBooks() {
+        String unusedVariable;
         return books;
     }
 
