@@ -22,6 +22,7 @@ node {
         unitTest()
         // test whether this is a regular branch build or a merged PR build
         if (!isPRMergeBuild()) {
+         deployReleasePomsToArtifactory()
          preview()
          allCodeQualityTests()
         }
@@ -150,6 +151,26 @@ def production() {
     def createdAt = getCurrentHerokuReleaseDate("${env.HEROKU_PRODUCTION}", version)
     echo "Release version: ${version}"
     createRelease(version, createdAt)
+}
+
+def deployReleasePomsToArtifactory() {
+    stage ("Deploy to Artifactory") {
+        def server = Artifactory.server "artifactory"
+        def buildInfo = Artifactory.newBuildInfo()
+        buildInfo.env.capture = true
+        
+        def descriptor = Artifactory.mavenDescriptor()
+        descriptor.version = '1.0.0'
+        descriptor.pomFile = 'pom.xml'
+        descriptor.transform()
+        
+        def rtMaven = Artifactory.newMavenBuild()
+        rtMaven.tool = "Maven 3.x"
+        rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
+        rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+        rtMaven.run pom: 'pom.xml', goals: 'install', buildInfo: buildInfo
+        server.publishBuildInfo buildInfo
+    }
 }
 
 def mvn(args) {
