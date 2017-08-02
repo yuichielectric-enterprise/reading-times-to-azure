@@ -22,7 +22,6 @@ node {
         unitTest()
         // test whether this is a regular branch build or a merged PR build
         if (!isPRMergeBuild()) {
-         deployReleasePomsToArtifactory()
          preview()
          allCodeQualityTests()
         }
@@ -151,6 +150,7 @@ def production() {
     def createdAt = getCurrentHerokuReleaseDate("${env.HEROKU_PRODUCTION}", version)
     echo "Release version: ${version}"
     createRelease(version, createdAt)
+    deployReleasePomsToArtifactory()
 }
 
 def deployReleasePomsToArtifactory() {
