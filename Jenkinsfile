@@ -15,8 +15,12 @@ GitHub Token value as secret text with ID 'GITHUB_TOKEN'
 
 // not sure if this will work
 node {
+     server = Artifactory.server "artifactory"
+     buildInfo = Artifactory.newBuildInfo()
+     buildInfo.env.capture = true
+    
     // pull request or feature branch
-    if  (env.BRANCH_NAME != 'master') {
+    if  (env.BRANCH_NAME == 'master') {
         checkout()
         build()
         unitTest()
@@ -26,7 +30,7 @@ node {
          allCodeQualityTests()
         }
     } // master branch / production
-    else {
+    else { 
         checkout()
         build()
         allTests()
@@ -128,7 +132,9 @@ def preview() {
 
 def preProduction() {
     stage name: 'Deploy to Pre-Production', concurrency: 1
+    switchSnapshotBuildToRelease()
     herokuDeploy "${env.HEROKU_PREPRODUCTION}"
+    buildAndPublishToArtifactory()
 }
 
 def manualPromotion() {
@@ -150,26 +156,68 @@ def production() {
     def createdAt = getCurrentHerokuReleaseDate("${env.HEROKU_PRODUCTION}", version)
     echo "Release version: ${version}"
     createRelease(version, createdAt)
-    deployReleasePomsToArtifactory()
+    promoteInArtifactoryAndDistributeToBinTray()
 }
 
-def deployReleasePomsToArtifactory() {
-    stage ("Deploy to Artifactory") {
-        def server = Artifactory.server "artifactory"
-        def buildInfo = Artifactory.newBuildInfo()
-        buildInfo.env.capture = true
-        
-        def descriptor = Artifactory.mavenDescriptor()
-        descriptor.version = '1.0.0'
-        descriptor.pomFile = 'pom.xml'
-        descriptor.transform()
-        
+def switchSnapshotBuildToRelease() {
+    def descriptor = Artifactory.mavenDescriptor()
+    descriptor.version = '1.0.0'
+    descriptor.pomFile = 'pom.xml'
+    descriptor.transform()
+}
+
+def buildAndPublishToArtifactory() {       
         def rtMaven = Artifactory.newMavenBuild()
         rtMaven.tool = "Maven 3.x"
         rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
         rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
         rtMaven.run pom: 'pom.xml', goals: 'install', buildInfo: buildInfo
         server.publishBuildInfo buildInfo
+}
+
+def promoteBuildInArtifactory() {
+        def promotionConfig = [
+            // Mandatory parameters
+            'buildName'          : buildInfo.name,
+            'buildNumber'        : buildInfo.number,
+            'targetRepo'         : 'libs-prod-local',
+ 
+            // Optional parameters
+            'comment'            : 'deploying to production',
+            'sourceRepo'         : 'libs-release-local',
+            'status'             : 'Released',
+            'includeDependencies': true,
+            'copy'               : true,
+            // 'failFast' is true by default.
+            // Set it to false, if you don't want the promotion to abort upon receiving the first error.
+            'failFast'           : true
+        ]
+ 
+        // Promote build
+        server.promote promotionConfig
+}
+
+def distributeBuildToBinTray() {
+        def distributionConfig = [
+            // Mandatory parameters
+            'buildName'             : buildInfo.name,
+            'buildNumber'           : buildInfo.number,
+            'targetRepo'            : 'reading-time-dist',  
+            // Optional parameters
+            //'publish'               : true, // Default: true. If true, artifacts are published when deployed to Bintray.
+            'overrideExistingFiles' : true, // Default: false. If true, Artifactory overwrites builds already existing in the target path in Bintray.
+            //'gpgPassphrase'         : 'passphrase', // If specified, Artifactory will GPG sign the build deployed to Bintray and apply the specified passphrase.
+            //'async'                 : false, // Default: false. If true, the build will be distributed asynchronously. Errors and warnings may be viewed in the Artifactory log.
+            //"sourceRepos"           : ["yum-local"], // An array of local repositories from which build artifacts should be collected.
+            //'dryRun'                : false, // Default: false. If true, distribution is only simulated. No files are actually moved.
+        ]
+        server.distribute distributionConfig
+}
+
+def promoteInArtifactoryAndDistributeToBinTray() {
+    stage ("Promote in Artifactory and Distribute to BinTray") {
+        promoteBuildInArtifactory()
+        distributeBuildToBinTray()
     }
 }
 
@@ -180,7 +228,8 @@ def mvn(args) {
         // Maven settings.xml file defined with the Jenkins Config File Provider Plugin
         
         // settings.xml referencing the GitHub Artifactory repositories
-        mavenSettingsConfig: '0e94d6c3-b431-434f-a201-7d7cda7180cb',
+        // comment out to save artifactory bandwidth (we have a cloud quota)
+         mavenSettingsConfig: '0e94d6c3-b431-434f-a201-7d7cda7180cb',
         // we do not need to set a special local maven repo, take the one from the standard box
         //mavenLocalRepo: '.repository'
         ) {
