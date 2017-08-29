@@ -201,10 +201,10 @@ def production() {
     stage name: 'Deploy to Production', concurrency: 1
     step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
     herokuDeploy "${env.HEROKU_PRODUCTION}"
-    // def version = getCurrentHerokuReleaseVersion("${env.HEROKU_PRODUCTION}")
-    // def createdAt = getCurrentHerokuReleaseDate("${env.HEROKU_PRODUCTION}", version)
-    // echo "Release version: ${version}"
-    // createRelease(version, createdAt)
+    def version = getCurrentHerokuReleaseVersion("${env.HEROKU_PRODUCTION}")
+    def createdAt = getCurrentHerokuReleaseDate("${env.HEROKU_PRODUCTION}", version)
+    echo "Release version: ${version}"
+    createRelease(version, createdAt)
     promoteInArtifactoryAndDistributeToBinTray()
 }
 
