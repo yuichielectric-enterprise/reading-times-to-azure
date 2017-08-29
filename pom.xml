@@ -239,6 +239,18 @@
         </plugins>
     </reporting>
     <description>A Java example project to demonstrate a Java development stack with Maven, Travis CI and Heroku deployments.</description>
+    <distributionManagement>
+  	<repository>
+		<id>central</id>
+		<name>githubdemo-releases</name>
+        	<url>https://githubdemo.jfrog.io/githubdemo/libs-release-local</url>
+    	</repository>
+	<snapshotRepository>
+		<id>snapshots</id>
+		<name>githubdemo-snapshots</name>
+		<url>https://githubdemo.jfrog.io/githubdemo/libs-snapshot-local</url>
+	</snapshotRepository>
+    </distributionManagement>
     <ciManagement>
         <system>Travis CI</system>
         <url>https://travisci.octodemoapps.com/office-tools/reading-time-app</url>
