@@ -111,7 +111,6 @@ def build () {
 def unitTest() {
     stage 'Unit tests'
     mvn 'test -B -Dmaven.javadoc.skip=true -Dcheckstyle.skip=true'
-    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
     if (currentBuild.result == "UNSTABLE") {
         sh "exit 1"
     }
