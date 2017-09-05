@@ -63,9 +63,12 @@ public class Book {
 
     public void setRating(long rating) {
 
-        if (rating < 0 || rating > 5)
-            throw new RuntimeException("Value for rating shall be a number between 0 and 5");
-
-        this.rating = rating;
+        if (rating < 0) {
+            this.rating = 0;
+        } else if (rating > 5) {
+            this.rating = 5;
+        } else {
+            this.rating = 0;
+        }
     }
 }
