@@ -175,7 +175,7 @@ def preview() {
         herokuDeploy "${herokuApp}"
         setDeploymentStatus(id, "success", "https://${herokuApp}.herokuapp.com/", "Successfully deployed to test");
     }
-    mvn 'deploy'
+    mvn 'deploy -DskipTests=true'
 }
 
 def preProduction() {
