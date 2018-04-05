@@ -14,20 +14,20 @@ echo "Re-setting Demo"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Check if master branch is protected
-BRANCHES_STATUS_CODE=$(curl -I -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/vnd.github.loki-preview+json" https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection -s -o /dev/null -w %{http_code})
+BRANCHES_STATUS_CODE=$(curl -I -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/json" https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection -s -o /dev/null -w %{http_code})
 
 if [ $BRANCHES_STATUS_CODE -ne "404" ] ; then
 
     echo "Master is protected: disabling protection"
 
     # Read required status currently activated on master branch
-    CONTEXTS=$(curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/vnd.github.loki-preview+json" https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection/required_status_checks/contexts)
+    CONTEXTS=$(curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/json" https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection/required_status_checks/contexts)
 
     # Remove new lines from $CONTEXTS
     CONTEXTS=$(echo $CONTEXTS|tr -d '\n')
 
     # Disabling protected branches otherwise force push fails (when available in Enterprise)
-    curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/vnd.github.loki-preview+json" -H "Content-type: application/json" -X DELETE https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection
+    curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X DELETE https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection
 
 else
   echo "Master is not protected"
@@ -45,7 +45,7 @@ if [ "$BRANCHES_STATUS_CODE" -ne 404 ] ; then
     echo "Re-enabling protected branches as before: $CONTEXTS"
 
     # Get the new JSON based on the protected.json template and run the re-enable API
-    sed -e "s|CONTEXTS_PLACEHOLDER|$CONTEXTS|g" scripts/protected.json | curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/vnd.github.loki-preview+json" -H "Content-type: application/json" -X PUT https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection -d @-
+    sed -e "s|CONTEXTS_PLACEHOLDER|$CONTEXTS|g" scripts/protected.json | curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection -d @-
 fi
 
 

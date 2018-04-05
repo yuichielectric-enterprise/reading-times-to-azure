@@ -1,8 +1,9 @@
 {
   "required_status_checks": {
-    "include_admins": true,
     "strict": false,
     "contexts": CONTEXTS_PLACEHOLDER
   },
+  "enforce_admins": false,
+  "required_pull_request_reviews": null,
   "restrictions": null
 }
