@@ -3,27 +3,38 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 /*
-Please make sure to add the following environment variables:
-HEROKU_PREVIEW=<your heroku preview app>
-HEROKU_PREPRODUCTION=<your heroku pre-production app>
-HEROKU_PRODUCTION=<your heroku production app>
+Environment variables: These environment variables should be set in Jenkins in: `https://github-demo.ci.cloudbees.com/job/<org name>/configure`:
+
+For deployment purposes:
+ - HEROKU_PREVIEW=<your heroku preview app>
+ - HEROKU_PREPRODUCTION=<your heroku pre-production app>
+ - HEROKU_PRODUCTION=<your heroku production app>
+
+To control which stages you want, please add an environment variable if you want to remove a particular step of the build:
+ - DEMO_DISABLE_SONAR=true
+ - DEMO_DISABLE_LINT=true
+ - DEMO_DISABLE_PREVIEW=true
+ - DEMO_DISABLE_PREPROD=true
+ - DEMO_DISABLE_PROD=true
+ - DEMO_DISABLE_ARTIFACTORY=true
 
 Please also add the following credentials to the global domain of your organization's folder:
-Heroku API key as secret text with ID 'HEROKU_API_KEY'
-GitHub Token value as secret text with ID 'GITHUB_TOKEN'
+- Heroku API key as secret text with ID 'HEROKU_API_KEY'
+- GitHub Token value as secret text with ID 'GITHUB_TOKEN'
+
 */
 
-// not sure if this will work
 node {
 
-     server = Artifactory.server "artifactory"
-     buildInfo = Artifactory.newBuildInfo()
-     buildInfo.env.capture = true
-    
+    printOptions()
+    server = Artifactory.server "artifactory"
+    buildInfo = Artifactory.newBuildInfo()
+    buildInfo.env.capture = true
+
     // we need to set a newer JVM for Sonar
     env.JAVA_HOME="${tool 'Java SE DK 8u131'}"
     env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
-    
+
     // pull request or feature branch
     if  (env.BRANCH_NAME != 'master') {
         checkout()
@@ -32,19 +43,17 @@ node {
         // test whether this is a regular branch build or a merged PR build
         if (!isPRMergeBuild()) {
             preview()
-            sonarServer()
             allCodeQualityTests()
         } else {
             // Pull request
             sonarPreview()
         }
     } // master branch / production
-    else { 
+    else {
         checkout()
         build()
         allTests()
         preview()
-        sonarServer()
         allCodeQualityTests()
         preProduction()
         manualPromotion()
@@ -52,12 +61,22 @@ node {
     }
 }
 
+def printOptions () {
+    echo "====Environment variable configurations===="
+    echo sh(script: 'env|sort', returnStdout: true)
+}
+
 def isPRMergeBuild() {
     return (env.BRANCH_NAME ==~ /^PR-\d+$/)
 }
 
 def sonarPreview() {
-    stage('SonarQube Preview') {
+
+    if (env.DEMO_DISABLE_SONAR == "true") {
+        return
+    }
+
+    stage('Code Quality - SonarQube Preview') {
         prNo = (env.BRANCH_NAME=~/^PR-(\d+)$/)[0][1]
         mvn "org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true -Pcoverage-per-test"
         withCredentials([[$class: 'StringBinding', credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN']]) {
@@ -67,16 +86,21 @@ def sonarPreview() {
                 mvn "-Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=${prNo} -Dsonar.github.oauth=${githubToken} -Dsonar.github.repository=${repoSlug} -Dsonar.github.endpoint=https://octodemo.com/api/v3/ org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
             }
         }
-    } 
+    }
 }
-    
+
 def sonarServer() {
-    stage('SonarQube Server') {
+
+    if (env.DEMO_DISABLE_SONAR == "true") {
+        return
+    }
+
+    stage('Code Quality - SonarQube Server') {
         mvn "org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true -Pcoverage-per-test"
         withSonarQubeEnv('SonarQube Octodemoapps') {
             mvn "org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
         }
-        
+
         context="sonarqube/qualitygate"
         setBuildStatus ("${context}", 'Checking Sonarqube quality gate', 'PENDING')
         timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
@@ -86,13 +110,10 @@ def sonarServer() {
                 error "Pipeline aborted due to quality gate failure: ${qg.status}"
             } else {
                 setBuildStatus ("${context}", "Sonarqube quality gate pass: ${qg.status}", 'SUCCESS')
-            }    
+            }
         }
     }
 }
-    
-
-
 
 def checkout () {
     stage 'Checkout code'
@@ -128,12 +149,17 @@ def allTests() {
 }
 
 def allCodeQualityTests() {
-    stage 'Code Quality'
+    sonarServer()
     lintTest()
-    coverageTest()
 }
 
 def lintTest() {
+
+    if (env.DEMO_DISABLE_LINT == "true") {
+        return
+    }
+
+    stage 'Code Quality - Linting'
     context="continuous-integration/jenkins/linting"
     setBuildStatus ("${context}", 'Checking code conventions', 'PENDING')
     lintTestPass = true
@@ -148,24 +174,12 @@ def lintTest() {
     }
 }
 
-def coverageTest() {
-    context="continuous-integration/jenkins/coverage"
-    setBuildStatus ("${context}", 'Checking code coverage levels', 'PENDING')
+def preview() {
 
-    coverageTestStatus = true
-
-    try {
-        mvn 'cobertura:check'
-    } catch (err) {
-        setBuildStatus("${context}", 'Code coverage below 90%', 'FAILURE')
-        throw err
+    if (env.DEMO_DISABLE_PREVIEW == "true") {
+        return
     }
 
-    setBuildStatus ("${context}", 'Code coverage above 90%', 'SUCCESS')
-
-}
-
-def preview() {
     stage name: 'Deploy to Preview env', concurrency: 1
     def herokuApp = "${env.HEROKU_PREVIEW}"
     def id = createDeployment(getBranch(), "preview", "Deploying branch to test")
@@ -179,13 +193,26 @@ def preview() {
 }
 
 def preProduction() {
+
+    if (env.DEMO_DISABLE_PREPROD == "true") {
+        return
+    }
+
     stage name: 'Deploy to Pre-Production', concurrency: 1
     switchSnapshotBuildToRelease()
     herokuDeploy "${env.HEROKU_PREPRODUCTION}"
-    buildAndPublishToArtifactory()
+    if (env.DEMO_DISABLE_ARTIFACTORY != "true") {
+        buildAndPublishToArtifactory()
+    }
+
 }
 
 def manualPromotion() {
+
+    if (env.DEMO_DISABLE_PROD == "true") {
+        return
+    }
+
     // we need a first milestone step so that all jobs entering this stage are tracked an can be aborted if needed
     milestone 1
     // time out manual approval after ten minutes
@@ -197,6 +224,11 @@ def manualPromotion() {
 }
 
 def production() {
+
+    if (env.DEMO_DISABLE_PROD == "true") {
+        return
+    }
+
     stage name: 'Deploy to Production', concurrency: 1
     step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
     herokuDeploy "${env.HEROKU_PRODUCTION}"
@@ -204,7 +236,9 @@ def production() {
     def createdAt = getCurrentHerokuReleaseDate("${env.HEROKU_PRODUCTION}", version)
     echo "Release version: ${version}"
     createRelease(version, createdAt)
-    promoteInArtifactoryAndDistributeToBinTray()
+    if (env.DEMO_DISABLE_ARTIFACTORY != "true") {
+        promoteInArtifactoryAndDistributeToBinTray()
+    }
 }
 
 def switchSnapshotBuildToRelease() {
@@ -214,22 +248,22 @@ def switchSnapshotBuildToRelease() {
     descriptor.transform()
 }
 
-def buildAndPublishToArtifactory() {       
-        def rtMaven = Artifactory.newMavenBuild()
-        rtMaven.tool = "Maven 3.x"
-        rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
-        rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
-        rtMaven.run pom: 'pom.xml', goals: 'install', buildInfo: buildInfo
-        server.publishBuildInfo buildInfo
+def buildAndPublishToArtifactory() {
+    def rtMaven = Artifactory.newMavenBuild()
+    rtMaven.tool = "Maven 3.x"
+    rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
+    rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+    rtMaven.run pom: 'pom.xml', goals: 'install', buildInfo: buildInfo
+    server.publishBuildInfo buildInfo
 }
 
 def promoteBuildInArtifactory() {
-        def promotionConfig = [
+    def promotionConfig = [
             // Mandatory parameters
             'buildName'          : buildInfo.name,
             'buildNumber'        : buildInfo.number,
             'targetRepo'         : 'libs-prod-local',
- 
+
             // Optional parameters
             'comment'            : 'deploying to production',
             'sourceRepo'         : 'libs-release-local',
@@ -239,18 +273,18 @@ def promoteBuildInArtifactory() {
             // 'failFast' is true by default.
             // Set it to false, if you don't want the promotion to abort upon receiving the first error.
             'failFast'           : true
-        ]
- 
-        // Promote build
-        server.promote promotionConfig
+    ]
+
+    // Promote build
+    server.promote promotionConfig
 }
 
 def distributeBuildToBinTray() {
-        def distributionConfig = [
+    def distributionConfig = [
             // Mandatory parameters
             'buildName'             : buildInfo.name,
             'buildNumber'           : buildInfo.number,
-            'targetRepo'            : 'reading-time-dist',  
+            'targetRepo'            : 'reading-time-dist',
             // Optional parameters
             //'publish'               : true, // Default: true. If true, artifacts are published when deployed to Bintray.
             'overrideExistingFiles' : true, // Default: false. If true, Artifactory overwrites builds already existing in the target path in Bintray.
@@ -258,8 +292,8 @@ def distributeBuildToBinTray() {
             //'async'                 : false, // Default: false. If true, the build will be distributed asynchronously. Errors and warnings may be viewed in the Artifactory log.
             //"sourceRepos"           : ["yum-local"], // An array of local repositories from which build artifacts should be collected.
             //'dryRun'                : false, // Default: false. If true, distribution is only simulated. No files are actually moved.
-        ]
-        server.distribute distributionConfig
+    ]
+    server.distribute distributionConfig
 }
 
 def promoteInArtifactoryAndDistributeToBinTray() {
@@ -271,16 +305,16 @@ def promoteInArtifactoryAndDistributeToBinTray() {
 
 def mvn(args) {
     withMaven(
-        // Maven installation declared in the Jenkins "Global Tool Configuration"
-        maven: 'Maven 3.x',
-        // Maven settings.xml file defined with the Jenkins Config File Provider Plugin
-        
-        // settings.xml referencing the GitHub Artifactory repositories
-        // comment out to save artifactory bandwidth (we have a cloud quota)
-         mavenSettingsConfig: '0e94d6c3-b431-434f-a201-7d7cda7180cb',
-        // we do not need to set a special local maven repo, take the one from the standard box
-        //mavenLocalRepo: '.repository'
-        ) {
+            // Maven installation declared in the Jenkins "Global Tool Configuration"
+            maven: 'Maven 3.x',
+            // Maven settings.xml file defined with the Jenkins Config File Provider Plugin
+
+            // settings.xml referencing the GitHub Artifactory repositories
+            // comment out to save artifactory bandwidth (we have a cloud quota)
+            mavenSettingsConfig: '0e94d6c3-b431-434f-a201-7d7cda7180cb',
+            // we do not need to set a special local maven repo, take the one from the standard box
+            //mavenLocalRepo: '.repository'
+    ) {
         // Run the maven build
         sh "mvn $args -Dmaven.test.failure.ignore"
     }
@@ -334,14 +368,14 @@ void setDeploymentStatus(deploymentId, state, targetUrl, description) {
 }
 
 void setBuildStatus(context, message, state) {
-  // partially hard coded URL because of https://issues.jenkins-ci.org/browse/JENKINS-36961, adjust to your own GitHub instance
-  step([
-      $class: "GitHubCommitStatusSetter",
-      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://octodemo.com/${getRepoSlug()}"],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
-  ]);
+    // partially hard coded URL because of https://issues.jenkins-ci.org/browse/JENKINS-36961, adjust to your own GitHub instance
+    step([
+            $class: "GitHubCommitStatusSetter",
+            contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
+            reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://octodemo.com/${getRepoSlug()}"],
+            errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+            statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+    ]);
 }
 
 def getCurrentHerokuReleaseVersion(app) {

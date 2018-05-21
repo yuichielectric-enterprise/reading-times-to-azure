@@ -37,16 +37,6 @@ elif [ "$1" = "test" ]; then
     statuses "failure" "One or more unit tests failed" "$1"
     exit 1
   fi
-elif [ "$1" = "coverage" ]; then
-  statuses "pending" "Running coverage checks" "$1"
-  mvn cobertura:check
-  STATUS=$?
-  echo "$STATUS"
-  if [ $STATUS -eq 0 ]; then
-    statuses "success" "Coverage check is 90% or higher" "$1"
-  else
-    statuses "failure" "Coverage check failed to reach 90%" "$1"
-  fi
 elif [ "$1" = "site" ]; then
   statuses "pending" "Generating Maven project site" "$1"
   mvn clean site
