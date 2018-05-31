@@ -10,8 +10,8 @@
 
 #!/usr/bin/bash
 echo "Re-setting Demo"
-
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DEFAULT_FEATURE_BRANCH="add-rating-feature"
 
 # Check if master branch is protected
 BRANCHES_STATUS_CODE=$(curl -I -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: application/json" https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/branches/master/protection -s -o /dev/null -w %{http_code})
@@ -73,6 +73,36 @@ curl -H "Authorization: Token $RT_UX_TOKEN" -H "Accept: application/json" -H "Co
 curl -H "Authorization: Token $RT_PM_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d @$DIR/issues/message3.json https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/issues/$ISSUE_NUMBER/comments
 curl -H "Authorization: Token $RT_DS_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d @$DIR/issues/message4.json https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/issues/$ISSUE_NUMBER/comments
 
+read -p  "Do you want to delete the feature branch locally  (y/N)?" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  
+  read -p  "What's the name of the branch [$DEFAULT_FEATURE_BRANCH]?" -r
+  echo
+  if [[ $REPLY == '' ]]
+  then
+    TARGET_BRANCH="$DEFAULT_FEATURE_BRANCH"
+  else 
+    TARGET_BRANCH="$REPLY"
+  fi
+  git branch -D $TARGET_BRANCH
+fi
+
+read -p  "Do you want to delete the feature branch on $RT_ORG/$RT_REPO  (y/N)?" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  read -p  "What's the name of the branch [$DEFAULT_FEATURE_BRANCH]?" -r
+  echo
+  if [[ $REPLY == '' ]]
+  then
+    TARGET_BRANCH="$DEFAULT_FEATURE_BRANCH"
+  else 
+    TARGET_BRANCH="$REPLY"
+  fi
+  git push origin --delete $TARGET_BRANCH
+fi
 
 echo "Redeploying master to heroku"
 git push heroku master -f
