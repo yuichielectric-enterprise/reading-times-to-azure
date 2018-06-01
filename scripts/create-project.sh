@@ -22,12 +22,16 @@ then
 fi
 
 
-echo "Creating Project"
-PROJECT_NUMBER=`curl -s -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: $ACCEPT_HEADER" -H "Content-type: application/json" -X POST -d @$DIR/projects/project1.json https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/projects | jq .number`
-ECHO "📊 Project created with id: $PROJECT_NUMBER"
+echo "Creating new Project."
+PROJECT_ID=`curl -s -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: $ACCEPT_HEADER" -H "Content-type: application/json" -X POST -d @$DIR/projects/project1.json https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/projects | jq .id`
+echo "📊 Project created with id: $PROJECT_ID"
 
-### BUMMER! We can't use the `/projects` endpoint just yet on GHE... stopping here for now!
 echo "Creating Columns"
-curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: $ACCEPT_HEADER" -H "Content-type: application/json" -X POST -d @$DIR/projects/column1.json https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/projects/$PROJECT_NUMBER
-# ECHO "TODO column created. Number=$TODO_ID"
+TODO_COL_ID=`curl -s -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: $ACCEPT_HEADER" -H "Content-type: application/json" -X POST -d @$DIR/projects/column1.json https://octodemo.com/api/v3/projects/$PROJECT_ID/columns | jq .id`
+echo "[1/3] ✅ TODO column created. id=$TODO_COL_ID"
 
+PROG_COL_ID=`curl -s -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: $ACCEPT_HEADER" -H "Content-type: application/json" -X POST -d @$DIR/projects/column2.json https://octodemo.com/api/v3/projects/$PROJECT_ID/columns | jq .id`
+echo "[2/3] ✅ In Progress column created. id=$PROG_COL_ID"
+
+DONE_COL_ID=`curl -s -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: $ACCEPT_HEADER" -H "Content-type: application/json" -X POST -d @$DIR/projects/column3.json https://octodemo.com/api/v3/projects/$PROJECT_ID/columns | jq .id`
+echo "[3/3] ✅ Done column created. id=$DONE_COL_ID"
