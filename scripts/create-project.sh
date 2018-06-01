@@ -1,6 +1,7 @@
-# Creates a Project board with a bunch of Cards to simulate an ongoing sprint
+# Creates a Project board with 3 columns to simulate an ongoing sprint
+# TODO: create a number of Cards to simulate real action
 
-# TODO: Change back to application/json once API is stable. 
+# TODO: Change back to "application/json" once API is stable. 
 # See: https://developer.github.com/v3/projects/#create-a-repository-project
 ACCEPT_HEADER="application/vnd.github.inertia-preview+json"  
 
