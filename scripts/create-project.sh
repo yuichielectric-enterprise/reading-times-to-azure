@@ -23,11 +23,11 @@ fi
 
 
 echo "Creating Project"
-PROJECT_NUMBER=`curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: $ACCEPT_HEADER" -H "Content-type: application/json" -X POST -d @$DIR/projects/project1.json https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/projects | jq .number`
-ECHO "Project created. Number=$PROJECT_NUMBER"
+PROJECT_NUMBER=`curl -s -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: $ACCEPT_HEADER" -H "Content-type: application/json" -X POST -d @$DIR/projects/project1.json https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/projects | jq .number`
+ECHO "📊 Project created with id: $PROJECT_NUMBER"
 
 ### BUMMER! We can't use the `/projects` endpoint just yet on GHE... stopping here for now!
 echo "Creating Columns"
-curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: $ACCEPT_HEADER" -H "Content-type: application/json" -X POST -d @$DIR/projects/column1.json https://octodemo.com/api/v3/projects/$PROJECT_NUMBER
+curl -H "Authorization: Token $GITHUB_TOKEN" -H "Accept: $ACCEPT_HEADER" -H "Content-type: application/json" -X POST -d @$DIR/projects/column1.json https://octodemo.com/api/v3/repos/$RT_ORG/$RT_REPO/projects/$PROJECT_NUMBER
 # ECHO "TODO column created. Number=$TODO_ID"
 
