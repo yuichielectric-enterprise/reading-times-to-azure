@@ -3,13 +3,13 @@ language: java
 install: true
 cache:
   directories:
-  - $HOME/.m2
+  - "$HOME/.m2"
 before_install:
-- ./scripts/status-checks.sh verify
+- "./scripts/status-checks.sh verify"
 script:
-- ./scripts/status-checks.sh test
-- ./scripts/status-checks.sh coverage
+- "./scripts/status-checks.sh test"
+- "./scripts/status-checks.sh coverage"
 after_success: 
 env:
   global:
-    secure: gUXxZ+ohJf7lhOSfJAxw8++97tQmlNPpGqZwm4HchdEcL6DDJQe+OarZxM1j+t+RqmEdSY1AOmRxmrD3lFQKn8BQbUNQqbCmOtCQiqEArAoP7VTLKq3CcqAkuyhbRg4AB8al2xgML/inBptJJShHxiol5yQGmaenpbYnx91ZSPHZmTpZE8Y9qiCCzvY4/QQoOC/tqwUNm10QhWDJcHbSxIlXkL8pQW2x0IG8C4CAS/JJWVZwK/AhpcpIMESLaJbDUeNhJUlQwIiii+/K2/QoRHVjpn/tWyAygB0WUyhxRK5qZIbMQo1kn07UnC5W6PA5we5I+AT7gNm/auYw3pSPIbE93uNce1sTmfBRk5qcyqANHXZOF8zxfL1lnQXzcVM5aEOqMTCz1JfEJef4amORRBKyZ0aDVuUGYiHXNumARQq7UXia9XksoeFK/yPyUUI3Vu2KCKBoIL7W2UTA3rLTbEZwWUM4GNuz6nVGX4ZcqHsKEjFBAY4VimwTAYMrKPiXST5HDFAKrrQLWerMBieKVtf/GLFAOjYijBZGPAK38508mL6hSk6LRS1Q/SWWeKoAH1tsx7NuV4rt4YpBFiQupFW0ZJuY9Gc/DN+JCWxiIuAIn+cq7ZDeSCtVhNkizh0dRmSfUBHtyHvowu4dyh4LbONg8TGPsf8wQNcFM4s86Tk=
+    secure: DEi7cRjWa14LjvGGwdFF2X8PdRrH29pSdOdFKqwXA/W2uvzgNvXVdOfAlzs//nmIZpIfS9WmV1roXomCu0y9SgSQLhsbk2xq9mQyJpjpGvFub0lgTK2D0bnCdDcpBbqCV+ZOJSE+srLS/94QK//8rjV7xkec6qkGG9XtR0JiI5j4IyinqybKG6LKq/j4PMcrWb5fGID+o6wleCbihma/hXaAZ5RyQJMBOvBvYeyFG0u/QhRl6qv7n2Xvz5wVGbuERZNrLp0LwNsQILp+KF1vob1C9kdd6c1EyULxfAiYN/uzvB6IZigC1vWu6DDpqjscFH37Y8TOWiI1aUCRwiq5CvLqAPADaLsdjmPi5e1hbl5TAu2dIvB1byCgG6NqN0giq+a07jgE4fXrVrkANuKqBSaerGyVLRGbVqdUtYiQZG/i2TQxLK3nvX9w+mtiPxzMbsBewmZJnsJCWlkLYybxmZLc//TcEBvRKpmFSgG0x/2DIJ8RyaSpL4X/5UBb+vmf0D3rBgck00ofk+VwP8zxcrNqwKYstMhws2GRkcE5y0k+gBRoF0FS0FDh5dC/jDf173GWCQgn2xBC40BXZny5o4v+ypMvd83Mv/3Gw6+QeWbIxZ+B34fpmeiFgFiOvE9BjG7iC+JnrFeu38rLERW0KQauXEYlfz3eb7z9eF/sxwc=
