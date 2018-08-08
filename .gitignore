@@ -1,7 +1,11 @@
 target
 tomcat.8080
 tomcat.5000
+scripts/.env
 
 # IntelliJ Idea project files
 .idea
 *.iml
+.settings
+.classpath
+.project
