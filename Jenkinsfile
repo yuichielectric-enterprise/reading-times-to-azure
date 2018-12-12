@@ -24,42 +24,47 @@ Please also add the following credentials to the global domain of your organizat
 
 */
 
-node {
+podTemplate(
+  name: 'test-pod',
+  label: 'test-pod',
+  containers: [
+    containerTemplate(name: 'mvn', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
+  ],
+  {
+    node ('test-pod') {
+      container ('mvn') {
+        printOptions()
+        server = Artifactory.server "artifactory"
+        buildInfo = Artifactory.newBuildInfo()
+        buildInfo.env.capture = true
 
-    printOptions()
-    server = Artifactory.server "artifactory"
-    buildInfo = Artifactory.newBuildInfo()
-    buildInfo.env.capture = true
-
-    // we need to set a newer JVM for Sonar
-    env.JAVA_HOME="${tool 'Java SE DK 8u131'}"
-    env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
-
-    // pull request or feature branch
-    if  (env.BRANCH_NAME != 'master') {
-        checkout()
-        build()
-        unitTest()
-        // test whether this is a regular branch build or a merged PR build
-        if (!isPRMergeBuild()) {
+        // pull request or feature branch
+        if  (env.BRANCH_NAME != 'master') {
+            checkout()
+            build()
+            unitTest()
+            // test whether this is a regular branch build or a merged PR build
+            if (!isPRMergeBuild()) {
+                preview()
+                allCodeQualityTests()
+            } else {
+                // Pull request
+                sonarPreview()
+            }
+        } // master branch / production
+        else {
+            checkout()
+            build()
+            allTests()
             preview()
             allCodeQualityTests()
-        } else {
-            // Pull request
-            sonarPreview()
+            preProduction()
+            manualPromotion()
+            production()
         }
-    } // master branch / production
-    else {
-        checkout()
-        build()
-        allTests()
-        preview()
-        allCodeQualityTests()
-        preProduction()
-        manualPromotion()
-        production()
+      }
     }
-}
+  })
 
 def printOptions () {
     echo "====Environment variable configurations===="
@@ -103,6 +108,11 @@ def sonarServer() {
 
         context="sonarqube/qualitygate"
         setBuildStatus ("${context}", 'Checking Sonarqube quality gate', 'PENDING')
+
+        // our new Jenkins instance has a self signed certificate so far
+        // SonarQube will not be able to tell the quality gate check to wake up
+        // 5 seconds is more than enough for the check to complete before waiting
+        sleep 5
         timeout(time: 1, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
             def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
             if (qg.status != 'OK') {
@@ -250,11 +260,17 @@ def switchSnapshotBuildToRelease() {
 
 def buildAndPublishToArtifactory() {
     def rtMaven = Artifactory.newMavenBuild()
-    rtMaven.tool = "Maven 3.x"
-    rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
-    rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
-    rtMaven.run pom: 'pom.xml', goals: 'install', buildInfo: buildInfo
-    server.publishBuildInfo buildInfo
+
+    // we like to detect the installed maven version automatically
+    rtMaven.tool = null
+
+    // we have to help a bit as we are running in a docker container
+    withEnv(["MAVEN_HOME=/usr/share/maven"]) {
+      rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
+      rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+      rtMaven.run pom: 'pom.xml', goals: 'install', buildInfo: buildInfo
+      server.publishBuildInfo buildInfo
+    }
 }
 
 def promoteBuildInArtifactory() {
@@ -306,12 +322,16 @@ def promoteInArtifactoryAndDistributeToBinTray() {
 def mvn(args) {
     withMaven(
             // Maven installation declared in the Jenkins "Global Tool Configuration"
-            maven: 'Maven 3.x',
-            // Maven settings.xml file defined with the Jenkins Config File Provider Plugin
+            // as the docker container does not specify a tool config we go with the default
+            // maven: 'Maven 3.x',
 
+            // Maven settings.xml file defined with the Jenkins Config File Provider Plugin
             // settings.xml referencing the GitHub Artifactory repositories
-            // comment out to save artifactory bandwidth (we have a cloud quota)
-            mavenSettingsConfig: '0e94d6c3-b431-434f-a201-7d7cda7180cb',
+            // comment out if you need speed up the build
+            // mavencentral is closer to the Cloudbees Kubernetes cluster as jfrog.io
+            // but disabling will break the mvn deploy and artifactory steps
+            mavenSettingsConfig: '0e94d6c3-b431-434f-a201-7d7cda7180cb'
+
             // we do not need to set a special local maven repo, take the one from the standard box
             //mavenLocalRepo: '.repository'
     ) {
