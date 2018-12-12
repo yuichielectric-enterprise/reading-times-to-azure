@@ -328,17 +328,22 @@ def promoteInArtifactoryAndDistributeToBinTray() {
 }
 
 def mvn(args) {
+
+    // Maven settings.xml file defined with the Jenkins Config File Provider Plugin
+    // settings.xml referencing the GitHub Artifactory repositories
+    // mavencentral is closer to the Cloudbees Kubernetes cluster as jfrog.io
+    // but disabling will break the mvn deploy and artifactory steps
+    mavenSettingsConfig = '0e94d6c3-b431-434f-a201-7d7cda7180cb'
+    if (env.DEMO_DISABLE_ARTIFACTORY == "true") {
+      mavenSettingsConfig = null
+    }
+
     withMaven(
             // Maven installation declared in the Jenkins "Global Tool Configuration"
             // as the docker container does not specify a tool config we go with the default
             // maven: 'Maven 3.x',
 
-            // Maven settings.xml file defined with the Jenkins Config File Provider Plugin
-            // settings.xml referencing the GitHub Artifactory repositories
-            // comment out if you need speed up the build
-            // mavencentral is closer to the Cloudbees Kubernetes cluster as jfrog.io
-            // but disabling will break the mvn deploy and artifactory steps
-            mavenSettingsConfig: '0e94d6c3-b431-434f-a201-7d7cda7180cb'
+            mavenSettingsConfig: mavenSettingsConfig
 
             // we do not need to set a special local maven repo, take the one from the standard box
             //mavenLocalRepo: '.repository'
