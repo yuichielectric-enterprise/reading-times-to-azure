@@ -17,6 +17,7 @@ To control which stages you want, please add an environment variable if you want
  - DEMO_DISABLE_PREPROD=true
  - DEMO_DISABLE_PROD=true
  - DEMO_DISABLE_ARTIFACTORY=true
+ - DEMO_DISABLE_BINTRAY=true
 
 Please also add the following credentials to the global domain of your organization's folder:
 - Heroku API key as secret text with ID 'HEROKU_API_KEY'
@@ -199,6 +200,10 @@ def preview() {
         herokuDeploy "${herokuApp}"
         setDeploymentStatus(id, "success", "https://${herokuApp}.herokuapp.com/", "Successfully deployed to test");
     }
+
+    if (env.DEMO_DISABLE_ARTIFACTORY == "true") {
+        return
+    }
     mvn 'deploy -DskipTests=true'
 }
 
@@ -296,20 +301,23 @@ def promoteBuildInArtifactory() {
 }
 
 def distributeBuildToBinTray() {
-    def distributionConfig = [
-            // Mandatory parameters
-            'buildName'             : buildInfo.name,
-            'buildNumber'           : buildInfo.number,
-            'targetRepo'            : 'reading-time-dist',
-            // Optional parameters
-            //'publish'               : true, // Default: true. If true, artifacts are published when deployed to Bintray.
-            'overrideExistingFiles' : true, // Default: false. If true, Artifactory overwrites builds already existing in the target path in Bintray.
-            //'gpgPassphrase'         : 'passphrase', // If specified, Artifactory will GPG sign the build deployed to Bintray and apply the specified passphrase.
-            //'async'                 : false, // Default: false. If true, the build will be distributed asynchronously. Errors and warnings may be viewed in the Artifactory log.
-            //"sourceRepos"           : ["yum-local"], // An array of local repositories from which build artifacts should be collected.
-            //'dryRun'                : false, // Default: false. If true, distribution is only simulated. No files are actually moved.
-    ]
-    server.distribute distributionConfig
+  if (env.DEMO_DISABLE_BINTRAY == "true") {
+      return
+  }
+  def distributionConfig = [
+          // Mandatory parameters
+          'buildName'             : buildInfo.name,
+          'buildNumber'           : buildInfo.number,
+          'targetRepo'            : 'reading-time-dist',
+          // Optional parameters
+          //'publish'               : true, // Default: true. If true, artifacts are published when deployed to Bintray.
+          'overrideExistingFiles' : true, // Default: false. If true, Artifactory overwrites builds already existing in the target path in Bintray.
+          //'gpgPassphrase'         : 'passphrase', // If specified, Artifactory will GPG sign the build deployed to Bintray and apply the specified passphrase.
+          //'async'                 : false, // Default: false. If true, the build will be distributed asynchronously. Errors and warnings may be viewed in the Artifactory log.
+          //"sourceRepos"           : ["yum-local"], // An array of local repositories from which build artifacts should be collected.
+          //'dryRun'                : false, // Default: false. If true, distribution is only simulated. No files are actually moved.
+  ]
+  server.distribute distributionConfig
 }
 
 def promoteInArtifactoryAndDistributeToBinTray() {
