@@ -39,7 +39,7 @@ podTemplate(
         buildInfo.env.capture = true
 
         // pull request or feature branch
-        if  (env.BRANCH_NAME != 'master') {
+        if  (env.BRANCH_NAME != 'master' && env.BRANCH_NAME != 'new-jenkins-migration') {
             checkout()
             build()
             unitTest()
