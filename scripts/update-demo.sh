@@ -23,7 +23,9 @@ git commit -am "Adding my travis token after demo update"
 
 # Updating master and our baseline to revert to later on
 git push origin master:refs/tags/baseline -f
+git push com master:refs/tags/baseline -f
 git push origin master -f
+git push com master -f
 
 bash ./scripts/reset-demo.sh
 

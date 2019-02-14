@@ -39,6 +39,7 @@ git fetch --tags
 git checkout master
 git reset --hard baseline
 git push origin baseline:master -f
+git push com baseline:master -f
 
 if [ "$BRANCHES_STATUS_CODE" -ne 404 ] ; then
 
