@@ -10,7 +10,7 @@ git reset --hard baseline/master
 
 # Updating master and our baseline to revert to later on
 git tag baseline -f
-git push com baseline
+git push com baseline -f
 git push com master -f
 
 bash ./scripts/reset-az.sh
