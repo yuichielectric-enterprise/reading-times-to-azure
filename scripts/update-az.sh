@@ -9,9 +9,8 @@ git checkout master
 git reset --hard baseline/master
 
 # Updating master and our baseline to revert to later on
-git push com master:refs/tags/baseline -f
+git tag baseline -f
+git push com baseline
 git push com master -f
 
 bash ./scripts/reset-az.sh
-
-
