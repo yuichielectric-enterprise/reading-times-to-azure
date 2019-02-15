@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 echo "Re-setting Demo"
 
 # Force push HEAD to baseline
