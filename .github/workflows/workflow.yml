@@ -1,5 +1,6 @@
-name: Maven
 on: [push]
+
+name:  Maven
 
 jobs:
 
