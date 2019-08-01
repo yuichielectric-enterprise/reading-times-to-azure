@@ -1,4 +1,6 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.demo</groupId>
@@ -153,6 +155,36 @@
                     </includes>
                 </configuration>
             </plugin>
+            <!--*************************************************-->
+            <!-- Deploy to Tomcat in App Service Linux           -->
+            <!--*************************************************-->
+            <plugin>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-webapp-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <configuration>
+                    <schemaVersion>V2</schemaVersion>
+                    <resourceGroup>reading-time-app-1564643708126-rg</resourceGroup>
+                    <appName>reading-time-app-1564643708126</appName>
+                    <pricingTier>P1v2</pricingTier>
+                    <region>westeurope</region>
+                    <runtime>
+                        <os>linux</os>
+                        <javaVersion>jre8</javaVersion>
+                        <webContainer>jre8</webContainer>
+                    </runtime>
+                    <deployment>
+                        <resources>
+                            <resource>
+                                <directory>${project.basedir}/target</directory>
+                                <includes>
+                                    <include>*.jar</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </deployment>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <reporting>
@@ -206,7 +238,6 @@
         <url>https://octodemo.com/baseline/reading-time-demo/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
-
     <profiles>
         <profile>
             <id>coverage-per-test</id>
@@ -228,7 +259,6 @@
                     </plugin>
                 </plugins>
             </build>
-
             <dependencies>
                 <dependency>
                     <groupId>org.sonarsource.java</groupId>
