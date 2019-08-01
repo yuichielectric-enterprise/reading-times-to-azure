@@ -143,6 +143,8 @@
                 <version>3.8.0</version>
                 <configuration>
                     <debug>true</debug>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -164,21 +166,23 @@
                 <version>1.7.0</version>
                 <configuration>
                     <schemaVersion>V2</schemaVersion>
-                    <resourceGroup>reading-time-app-1564643708126-rg</resourceGroup>
-                    <appName>reading-time-app-1564643708126</appName>
-                    <pricingTier>P1v2</pricingTier>
-                    <region>westeurope</region>
+                    <subscriptionId>7c458c93-920c-4ed1-b26d-5b4ab57c0711</subscriptionId>
+                    <resourceGroup>reading-times</resourceGroup>
+                    <appName>reading-time-app</appName>
+                    <!--
+                    <region>centralus</region>
                     <runtime>
-                        <os>linux</os>
-                        <javaVersion>jre8</javaVersion>
-                        <webContainer>jre8</webContainer>
+                      <os>windows</os>
+                      <javaVersion>1.8</javaVersion>
+                      <webContainer>tomcat 8.5</webContainer>
                     </runtime>
+                    -->
                     <deployment>
                         <resources>
                             <resource>
                                 <directory>${project.basedir}/target</directory>
                                 <includes>
-                                    <include>*.jar</include>
+                                    <include>*.war</include>
                                 </includes>
                             </resource>
                         </resources>
