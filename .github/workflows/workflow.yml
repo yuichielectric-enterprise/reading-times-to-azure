@@ -16,12 +16,27 @@ jobs:
       - name: Build with Maven
         run: mvn package --file pom.xml
 
+  login:
+    name: Login to Azure
+    container:
+      image: microsoft/azure-cli
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+
+      - name: Login to Azure
+        run: az login --service-principal --username ${AZ_USER_NAME} --password ${AZ_PASSWORD} --tenant ${AZ_TENANT}
+        env:
+          AZ_USER_NAME: ${{secrets.AZ_USER_NAME}}
+          AZ_PASSWORD: ${{secrets.AZ_PASSWORD}}
+          AZ_TENANT: ${{secrets.AZ_TENANT}}
+
   deploy:
     name: Deploy
     container:
       image: maven
     runs-on: ubuntu-latest
-    needs: build
+    needs: login
     steps:
 
       - uses: actions/checkout@master
