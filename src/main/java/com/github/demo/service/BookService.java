@@ -16,6 +16,7 @@ public class BookService {
         //books.add(new Book("David Thomas","The Pragmatic Programmer: From Journeyman to Master", "pragmatic.jpg"));
         //books.add(new Book("Frederick P. Brooks Jr.", "The Mythical Man-Month: Essays on Software Engineering", "month.jpg"));
         books.add(new Book("Steve Krug","Don't Make Me Think, Revisited: A Common Sense Approach to Web Usability", "think.jpg"));
+        books.add(new Book("Takafumi Ikeda", "Practical collaborative development", "takafumi.jpg"));
     }
 
     public List<Book> getBooks() {
