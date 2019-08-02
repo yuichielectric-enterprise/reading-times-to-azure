@@ -19,7 +19,7 @@ jobs:
   login:
     name: Login to Azure
     container:
-      image: microsoft/azure-cli
+      image: mcr.microsoft.com/azure-cli
     runs-on: ubuntu-latest
     needs: build
     steps:
