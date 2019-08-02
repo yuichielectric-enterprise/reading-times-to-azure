@@ -31,8 +31,9 @@ jobs:
           sed -i -e 's/AZ_USER_NAME/${AZ_USER_NAME}/' server.xml
           sed -i -e 's/AZ_PASSWORD/${AZ_PASSWORD}/' server.xml
           sed -i -e 's/AZ_TENANT_ID/${AZ_TENANT_ID}/' server.xml
-          mvn --settings server.xml package azure-webapp:deploy -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+          # https://github.com/microsoft/azure-maven-plugins/blob/feature-spring/azure-webapp-maven-plugin/README.md
+          mvn --settings server.xml package azure-webapp:deploy
         env:
           AZ_USER_NAME: ${{secrets.AZ_USER_NAME}}
           AZ_PASSWORD: ${{secrets.AZ_PASSWORD}}
-          AZ_TENANT_ID: ${{secrets.AZ_TENANT}}
+          AZ_TENANT_ID: ${{secrets.AZ_TENANT_ID}}
