@@ -165,18 +165,13 @@
                 <artifactId>azure-webapp-maven-plugin</artifactId>
                 <version>1.7.0</version>
                 <configuration>
+                    <authentication>
+                        <serverId>azure-auth</serverId>
+                    </authentication>
                     <schemaVersion>V2</schemaVersion>
                     <subscriptionId>7c458c93-920c-4ed1-b26d-5b4ab57c0711</subscriptionId>
                     <resourceGroup>reading-times</resourceGroup>
                     <appName>reading-time-app</appName>
-                    <!--
-                    <region>centralus</region>
-                    <runtime>
-                      <os>windows</os>
-                      <javaVersion>1.8</javaVersion>
-                      <webContainer>tomcat 8.5</webContainer>
-                    </runtime>
-                    -->
                     <deployment>
                         <resources>
                             <resource>
