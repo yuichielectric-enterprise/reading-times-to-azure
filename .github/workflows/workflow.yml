@@ -21,7 +21,7 @@ jobs:
     container:
       image: maven
     runs-on: ubuntu-latest
-    needs: login
+    needs: build
     steps:
 
       - uses: actions/checkout@master
