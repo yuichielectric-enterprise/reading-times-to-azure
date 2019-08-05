@@ -3,7 +3,7 @@ on:
     branches:
     - master
 
-name:  Maven
+name:  Build and Deploy
 
 jobs:
 
