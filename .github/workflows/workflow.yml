@@ -10,9 +10,7 @@ jobs:
       image: maven
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@master
-
       - name: Build with Maven
         run: mvn package --file pom.xml
 
@@ -23,9 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-
       - uses: actions/checkout@master
-
       - name: Deploy with Maven
         run: |
           sed -i -e 's/AZ_USER_NAME/${AZ_USER_NAME}/' server.xml
