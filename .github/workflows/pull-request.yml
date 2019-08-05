@@ -1,0 +1,19 @@
+on:
+  push:
+    branches:
+    - '!master'
+    - '*'
+
+name:  Maven
+
+jobs:
+
+  build:
+    name: Build
+    container:
+      image: maven
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build with Maven
+        run: mvn package --file pom.xml
