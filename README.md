@@ -65,6 +65,8 @@ To authenticate Azure, you should [create the password-based service principal](
 
 And then, specify the following secrets to your repository settings.
 
+| Secrets |  |
+| --- | --- |
 | AZ_USER_NAME | User name of the service principal |
 | AZ_PASSWORD | Password of the service principal |
 | AZ_TENANT_ID | Tenant ID of the service principal |
