@@ -69,11 +69,11 @@ Azure へのデプロイの際の認証をするためには、 [パスワード
 | AZ_PASSWORD  | サービスプリンシパルのパスワード |
 | AZ_TENANT_ID | サービスプリンシパルの Tenant ID |
 
-## Contributing
+## このプロジェクトに貢献する方法
 
-Read the [CONTRIBUTING](.github/CONTRIBUTING.md) file before contributing to this project.
+[CONTRIBUTING](.github/CONTRIBUTING.md) ファイルにこのプロジェクトに貢献する方法を記載しています。
 
-## License
+## ライセンス
 
-See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
+このプロジェクトはMITライセンスの元配布されています。詳細については[LICENSE](LICENSE.md)ファイルを御覧ください。
 
