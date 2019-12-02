@@ -1,51 +1,49 @@
 # Reading Time
+
 Reading Time is a web application that lists staff recommended books.
 
-## Installing
+## インストール
 
-### Prerequisites
-Reading Time requires Java and [Maven](https://maven.apache.org/). It uses an embedded Tomcat servlet container. To test if you have Java and Maven installed open a terminal and type:
+### 準備
+
+このアプリでは Java と[Maven](https://maven.apache.org/)が必要です。また、組込み Tomcat サーブレットコンテナを使用しています。Java と Maven がインストールされているかどうかを確認するには、ターミナルで以下のコマンドを実行して下さい：
+
 ```
 mvn --version
 ```
 
-### Running
+### 起動
 
-To run the application:
+アプリケーションを起動するには以下のコマンドを実行して下さい：
+
 ```
 mvn clean install
 sh target/bin/webapp
 open http://localhost:8080
 ```
 
-To install without running the tests:
+テストを実行しないでインストールするには以下のコマンドを実行して下さい：
+
 ```
 mvn -B -DskipTests=true clean install
 ```
-To run the unit tests:
+
+ユニットテストを実行するには以下のコマンドを実行して下さい：
+
 ```
 mvn clean test
 ```
-To run code coverage checks:
-```
-mvn cobertura:check
-```
-To create the code coverage report:
-```
-mvn cobertura:cobertura
-open target/site/cobertura/index.html
-```
-To create and view the Maven reports:
-```
-mvn site
-open target/site/index.html
-```
 
-## Setting up Actions
+## Actions の設定
 
-### Specify which Azure Web App to deploy
+このプロジェクトでは 2 つのワークフローを実行します。
 
-This wofkflow builds war file and deploys it to Azure Web Apps. To deploy your own Azure Web Apps, edit the following lines under azure-webapp-maven-plugin in `pom.xml`:
+1. フィーチャーブランチへの push のたびにビルド（コンパイル、ユニットテスト）の実行
+2. master へのマージのたびにビルド・Azure Web App へのデプロイ
+
+### デプロイする Azure Web App の設定
+
+デプロイする先の Azure Web App の指定は、`pom.xml`の azure-webapp-maven-plugin の配下に以下の記述を追記して下さい。
 
 ```xml
                     <subscriptionId>7c458c93-920c-4ed1-b26d-5b4ab57c0711</subscriptionId>
@@ -53,26 +51,28 @@ This wofkflow builds war file and deploys it to Azure Web Apps. To deploy your o
                     <appName>reading-time-app</appName>
 ```
 
-To confirm your `subscriptionId` from the following command:
+お使いの Azure Web App の `subscriptionId` を確認するには、以下のコマンドを実行して下さい：
 
 ```shell
 $ az account list
 ```
 
-### Authentication
+### 認証情報
 
-To authenticate Azure, you should [create the password-based service principal](https://docs.microsoft.com/ja-jp/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest#password-based-authentication).
+Azure へのデプロイの際の認証をするためには、 [パスワードベースのサービスプリンシパルを作成する](https://docs.microsoft.com/ja-jp/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest#password-based-authentication)必要があります。
 
-And then, specify the following secrets to your repository settings.
+そして、リポジトリの設定画面から以下の Secret を設定して下さい。
 
-| Secrets |  |
-| --- | --- |
-| AZ_USER_NAME | User name of the service principal |
-| AZ_PASSWORD | Password of the service principal |
-| AZ_TENANT_ID | Tenant ID of the service principal |
+| Secrets      |                                  |
+| ------------ | -------------------------------- |
+| AZ_USER_NAME | サービスプリンシパルのユーザー名 |
+| AZ_PASSWORD  | サービスプリンシパルのパスワード |
+| AZ_TENANT_ID | サービスプリンシパルの Tenant ID |
 
 ## Contributing
+
 Read the [CONTRIBUTING](.github/CONTRIBUTING.md) file before contributing to this project.
 
 ## License
+
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
