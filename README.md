@@ -1,6 +1,6 @@
 # Reading Time
 
-Reading Time is a web application that lists staff recommended books.
+このReading Timeアプリは、スタッフのオススメの書籍を紹介するWebアプリケーションです。
 
 ## インストール
 
