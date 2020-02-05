@@ -15,19 +15,22 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
-@WebServlet(name = "BookServlet", urlPatterns = { "" })
+@WebServlet(
+        name = "BookServlet",
+        urlPatterns = {""}
+)
 @WebInitParam(name = "allowedTypes", value = "html")
 public class BookServlet extends HttpServlet {
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         doGet(req, resp);
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String input = req.getParameter("user-input");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
         BookService service = new BookService();
         List books = service.getBooks();
@@ -37,11 +40,12 @@ public class BookServlet extends HttpServlet {
         TemplateEngine engine = new TemplateEngine();
         engine.setTemplateResolver(resolver);
 
-        WebContext ctx = new WebContext(req, resp, getServletContext(), req.getLocale());
+        WebContext ctx =
+                new WebContext(req, resp, getServletContext(), req.getLocale());
         ctx.setVariable("modified", Calendar.getInstance());
         ctx.setVariable("books", books);
-        ctx.setVariable("input", input);
         engine.process("books", ctx, resp.getWriter());
+
     }
 
 }
