@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 public class BookService {
 
     private static List<Book> books = new ArrayList<Book>(5);
@@ -33,8 +35,7 @@ public class BookService {
         try {
             return DriverManager.getConnection("https://localhost:3306", "admin", "password");
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
