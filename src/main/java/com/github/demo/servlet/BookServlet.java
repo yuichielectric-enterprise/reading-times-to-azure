@@ -30,7 +30,11 @@ public class BookServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         StringBuilder sb = new StringBuilder(String.format("ページが見つかりません %s", req.getRequestURI()));
         sb.append("インデックスページに戻る");
-        resp.sendError(HttpStatus.SC_NOT_FOUND, sb.toString());
+        this.notFound(resp, sb.toString());
+    }
+
+    prinvate void notFound(HttpServletResponse resp, String errorMessage) {
+        resp.sendError(HttpStatus.SC_NOT_FOUND, errorMessage);
     }
 
 }
