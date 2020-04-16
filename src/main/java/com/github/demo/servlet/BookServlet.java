@@ -33,7 +33,7 @@ public class BookServlet extends HttpServlet {
         this.notFound(resp, sb.toString());
     }
 
-    prinvate void notFound(HttpServletResponse resp, String errorMessage) {
+    private void notFound(HttpServletResponse resp, String errorMessage) throws IOException {
         resp.sendError(HttpStatus.SC_NOT_FOUND, errorMessage);
     }
 
