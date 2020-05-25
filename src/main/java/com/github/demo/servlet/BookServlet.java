@@ -1,6 +1,8 @@
 package com.github.demo.servlet;
 
 import com.github.demo.service.BookService;
+
+import org.apache.http.HttpStatus;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -31,21 +33,13 @@ public class BookServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        StringBuilder sb = new StringBuilder(String.format("The page can not be found %s", req.getRequestURI()));
+        sb.append("Return to index page.");
+        this.notFound(resp, sb.toString());
+    }
 
-        BookService service = new BookService();
-        List books = service.getBooks();
-
-        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
-        resolver.setSuffix(".html");
-        TemplateEngine engine = new TemplateEngine();
-        engine.setTemplateResolver(resolver);
-
-        WebContext ctx =
-                new WebContext(req, resp, getServletContext(), req.getLocale());
-        ctx.setVariable("modified", Calendar.getInstance());
-        ctx.setVariable("books", books);
-        engine.process("books", ctx, resp.getWriter());
-
+    private void notFound(HttpServletResponse resp, String errorMessage) throws IOException {
+        resp.sendError(HttpStatus.SC_NOT_FOUOND, errorMessage);
     }
 
 }
