@@ -3,7 +3,9 @@ name: "Code scanning - action"
 on:
   push:
   schedule:
-    - cron: '0 20 * * 6'
+    - cron: '0 11 * * *'
+    - branches:
+      - 'yuichielectric-patch-**'
 
 jobs:
   CodeQL-Build:
