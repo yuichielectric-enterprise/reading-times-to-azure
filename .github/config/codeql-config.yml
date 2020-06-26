@@ -1,0 +1,4 @@
+name: "CodeQL config"
+queries: 
+  - name: Run extended queries
+    uses: security-extended
