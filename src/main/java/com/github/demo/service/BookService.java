@@ -16,7 +16,7 @@ public class BookService {
                 "The Lean Startup: How Constant Innovation Creates Radically Successful Businesses", "lean.jpg", 5));
         books.add(new Book("Geoffrey A. Moore", "Crossing the Chasm", "chasm.jpg", 4));
         books.add(new Book("David Thomas", "The Pragmatic Programmer: From Journeyman to Master", "pragmatic.jpg", 3));
-        books.add(new Book("Frederick Brooks Jr.", "The Mythical Man-Month: Essays on Software Engineering",
+        books.add(new Book("Frederick P. Brooks Jr.", "The Mythical Man-Month: Essays on Software Engineering",
                 "month.jpg", 3));
         books.add(new Book("Steve Krug", "Don't Make Me Think, Revisited: A Common Sense Approach to Web Usability",
                 "think.jpg", 5));
