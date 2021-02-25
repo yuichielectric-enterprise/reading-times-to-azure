@@ -1,0 +1,9 @@
+name: Greetings
+
+on: [push, pull_request, issues]
+
+jobs:
+  echo-cpu:
+    runs-on: self-hosted
+    steps:
+    - run: echo /proc/cpuinfo
