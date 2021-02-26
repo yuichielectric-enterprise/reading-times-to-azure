@@ -42,4 +42,4 @@ jobs:
     - name: Generate report
       uses: peter-murray/github-security-report-action@v2
       with:
-        token: ${{ GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
