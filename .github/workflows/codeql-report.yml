@@ -43,3 +43,10 @@ jobs:
       uses: peter-murray/github-security-report-action@v2
       with:
         token: ${{ secrets.TOKEN }}
+        outputDir: .
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: security-reports
+        path: ./*.pdf
