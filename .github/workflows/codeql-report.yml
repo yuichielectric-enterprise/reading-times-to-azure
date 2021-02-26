@@ -38,6 +38,12 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
+    
+    - name: Upload sarif files
+      uses: actions/upload-artifact@v2
+      with:
+        name: Sarif-files
+        path: ../results/*
 
     - name: Generate report
       uses: peter-murray/github-security-report-action@v2
