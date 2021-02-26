@@ -43,7 +43,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Sarif-files
-        path: ../results/*
+        path: /home/runner/work/reading-times-to-azure/results/*.sarif
 
     - name: Generate report
       uses: peter-murray/github-security-report-action@v2
@@ -55,4 +55,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: security-reports
-        path: ./*.pdf
+        path: /home/runner/work/reading-times-to-azure/*.pdf
