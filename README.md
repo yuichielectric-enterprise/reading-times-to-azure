@@ -1,4 +1,4 @@
-# Reading Time
+# Reading Timeaa
 
 このReading Timeアプリは、スタッフのオススメの書籍を紹介するWebアプリケーションです。
 
