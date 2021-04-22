@@ -3,8 +3,7 @@ name: "Code scanning - action"
 on:
   repository_dispatch:
   push:
-  schedule:
-    - cron: '*/10 * * * *'
+
 
 jobs:
   CodeQL-Build:
