@@ -18,7 +18,7 @@ mvn --version
 
 ```
 mvn clean install
-sh target/bin/webapp
+sh target/bin/webappa
 open http://localhost:8080
 ```
 
