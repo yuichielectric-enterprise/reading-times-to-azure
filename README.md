@@ -19,7 +19,7 @@ mvn --version
 ```
 mvn clean install
 sh target/bin/webapp
-open http://localhost:8080
+open http://localhost
 ```
 
 テストを実行しないでインストールするには以下のコマンドを実行して下さい：
