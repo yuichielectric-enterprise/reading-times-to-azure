@@ -24,7 +24,7 @@ open http://localhost:8080
 
 テストを実行しないでインストールするには以下のコマンドを実行して下さい：
 
-```
+```aa
 mvn -B -DskipTests=true clean install
 ```
 
