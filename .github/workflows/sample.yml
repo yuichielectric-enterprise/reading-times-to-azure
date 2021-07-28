@@ -1,0 +1,17 @@
+name: sample workflow
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  job-one:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo hello
+  job-two:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo good night
