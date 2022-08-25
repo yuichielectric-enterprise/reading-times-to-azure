@@ -1,0 +1,10 @@
+name: Publish a release
+on:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: test
+    steps:
+      run: echo 'hello'
