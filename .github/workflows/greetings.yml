@@ -1,0 +1,9 @@
+name: Greetings
+
+on: push
+
+jobs:
+  echo-cpu:
+    runs-on: self-hosted
+    steps:
+    - run: cat /proc/cpuinfo
