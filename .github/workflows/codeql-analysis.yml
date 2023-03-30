@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Configure git private repo access
+      run: git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/yuichielectric-enterprise/reading-times-to-azure".insteadOf "https://github.com/yuichielectric-enterprise/reading-times-to-azure"
+
     - name: Checkout repository
       uses: actions/checkout@v2
 
